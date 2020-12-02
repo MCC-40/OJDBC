@@ -31,7 +31,7 @@ public class ManualTest {
         }
     }
 
-    public void saveRegion(Region region) throws SQLException {
+    public void saveRegionTesting(Region region) throws SQLException {
         System.out.println(rc.saveRegion(region) ? "Berhasil" : "Gagal");
     }
 
@@ -45,9 +45,9 @@ public class ManualTest {
     public static void main(String[] args) throws SQLException {
         ManualTest mt = new ManualTest();
         Region region = new Region(6, "South East Asia");
-//        mt.deleteTesting("6");
-//        mt.saveRegion(region);
 //        mt.getDataTesting("1");
+//        mt.saveRegionTesting(region);
+//        mt.deleteTesting("6");
     }
 
 }
