@@ -31,18 +31,18 @@ public class RegionController {
         this.irdao = new RegionDAO(new DBConnection().getConnection());
     }
 
-    public List<Region> getData(String id) throws SQLException {
-        if (isNullOrEmpty(id)) {
+    public List<Region> getData(String keyword) throws SQLException {
+        if (isNullOrEmpty(keyword)) {
             return irdao.getAllRegions();
         }
-        return irdao.searchRegions(Integer.parseInt(id));
+        return irdao.search(keyword);
     }
 
-    public boolean saveRegion(Region region) throws SQLException {
-        if (irdao.searchRegions(region.getId()).isEmpty()) {
-            return irdao.insertRegion(region);
+    public String saveRegion(Region region) throws SQLException {
+        if (irdao.getById(region.getId()).isEmpty()) {
+            return (irdao.insertRegion(region) ? "Inserted" : "Failed");
         }
-        return irdao.updateRegion(region);
+        return (irdao.updateRegion(region) ? "Updated" : "Failed");
     }
 
     public boolean deleteRegion(String id) throws SQLException {

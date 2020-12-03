@@ -18,24 +18,20 @@ import pkg40.models.Region;
  */
 public class ManualTest {
 
-    private RegionController rc;
+    private static RegionController rc;
 
-    public ManualTest() throws SQLException {
-        this.rc = new RegionController();
-    }
-
-    public void getDataTesting(String id) throws SQLException {
+    public static void getDataTesting(String id) throws SQLException {
         List<Region> regions = rc.getData(id);
         for (Region region : regions) {
             System.out.println(region.getId() + " | " + region.getName());
         }
     }
 
-    public void saveRegionTesting(Region region) throws SQLException {
-        System.out.println(rc.saveRegion(region) ? "Berhasil" : "Gagal");
+    public static void saveRegionTesting(Region region) throws SQLException {
+        System.out.println(rc.saveRegion(region));
     }
 
-    public void deleteTesting(String id) throws SQLException {
+    public static void deleteTesting(String id) throws SQLException {
         System.out.println(rc.deleteRegion(id) ? "Berhasil" : "Gagal");
     }
 
@@ -43,9 +39,11 @@ public class ManualTest {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
-        ManualTest mt = new ManualTest();
-        Region region = new Region(6, "South East Asia");
-//        mt.getDataTesting("1");
+        rc = new RegionController();
+        Region region = new Region(6, "South Asia");
+        String keyword = "E";
+        
+        getDataTesting(keyword);
 //        mt.saveRegionTesting(region);
 //        mt.deleteTesting("6");
     }

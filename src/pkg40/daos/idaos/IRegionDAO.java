@@ -17,7 +17,9 @@ public interface IRegionDAO {
 
     public List<Region> getAllRegions() throws SQLException;
 
-    public List<Region> searchRegions(int id) throws SQLException;
+    public List<Region> getById(int id) throws SQLException;
+    
+    public List<Region> search(String input) throws SQLException ;
     
     public boolean insertRegion(Region region) throws SQLException;
 

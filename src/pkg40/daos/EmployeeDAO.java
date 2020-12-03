@@ -11,21 +11,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import pkg40.daos.idaos.IRegionDAO;
+import pkg40.daos.idaos.IEmployeeDAO;
 import pkg40.models.Region;
 
 /**
  *
  * @author Yoshua
  */
-public class RegionDAO implements IRegionDAO {
-
-    private Connection conn;
+public class EmployeeDAO implements IEmployeeDAO {
+        private Connection conn;
     private PreparedStatement ps;
     private String sql;
 
     //dependency
-    public RegionDAO(Connection conn) {
+    public EmployeeDAO(Connection conn) {
         this.conn = conn;
     }
 
@@ -120,5 +119,4 @@ public class RegionDAO implements IRegionDAO {
         ps.setInt(1, id);
         return 1 == ps.executeUpdate();
     }
-
 }
