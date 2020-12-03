@@ -136,11 +136,11 @@ public class EmployeeDAO implements IEmployeeDAO {
                 + "email = ?, "
                 + "phone_number = ?, "
                 + "hire_date = ?, "
-                + "job_id = ?, "
+//                + "job_id = ?, "
                 + "salary = ?, "
                 + "commission_pct = ?, "
-                + "manager_id = ?, "
-                + "department_id = ? "
+                + "manager_id = ? "
+//                + "department_id = ? "
                 + "WHERE employee_id = ?";
         ps = conn.prepareStatement(sql);
         ps.setInt(1, employee.getId());
@@ -149,16 +149,15 @@ public class EmployeeDAO implements IEmployeeDAO {
         ps.setString(4, employee.getEmail());
         ps.setString(5, employee.getPhoneNumber());
         ps.setDate(6, new Date(employee.getHireDate().getTime()));
-        ps.setString(7, employee.getJobId());
-        ps.setInt(8, employee.getSalary());
-        ps.setFloat(9, employee.getCommisionPCT());
-        ps.setInt(10, employee.getManagerId());
-        ps.setInt(11, employee.getDepartmentId());
-        ps.setInt(12, employee.getId());
+//        ps.setString(7, employee.getJobId());
+        ps.setInt(7, employee.getSalary());
+        ps.setFloat(8, employee.getCommisionPCT());
+        ps.setInt(9, employee.getManagerId());
+//        ps.setInt(10, employee.getDepartmentId());
+        ps.setInt(10, employee.getId());
                 return 1 == ps.executeUpdate();
 
         } catch (Exception e) {
-            System.out.println("this");
             System.out.println(e);
         }
 return true;

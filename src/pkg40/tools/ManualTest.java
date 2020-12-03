@@ -57,7 +57,7 @@ public class ManualTest {
         ec = new EmployeeController();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
         Employee employee;
-        employee = new Employee(208, "test", "asd", "qwe", "112", simpleDateFormat.parse("1998-09-30"), "AD_PRES", 1000, (float
+        employee = new Employee(208, "test", "rrr", "qwe", "112", simpleDateFormat.parse("2021-09-30"), "AD_PRES", 1000, (float
         ) 0.1, 100, 90);
         String keyword = "";
         saveEmployeeTesting(employee);

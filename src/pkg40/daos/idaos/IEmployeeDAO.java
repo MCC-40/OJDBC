@@ -23,7 +23,7 @@ public interface IEmployeeDAO {
 
     public boolean insertEmployee(Employee employee) throws SQLException;
 
-    public boolean updateEmployee(Employee employee);
+    public boolean updateEmployee(Employee employee) throws SQLException;
 
     public boolean deleteEmployee(int id) throws SQLException;
 }
