@@ -81,34 +81,39 @@ public class EmployeeDAO implements IEmployeeDAO {
         }
         return employees;
     }
-//
-//    public List<Employee> search(String keyword) throws SQLException {
-//        List<Region> regions = new ArrayList<>();
-//        if (keyword.equals("")) {
-//            return getAllEmployees();
-//        }
-//
-//        String sql = "SELECT * FROM regions WHERE region_id=? OR lower(region_name) LIKE lower(?) || '%'";
-//        ps = this.conn.prepareStatement(sql);
-//        try {
-//            ps.setInt(1, Integer.parseInt(keyword));
-//        } catch (NumberFormatException e) {
-//            ps.setInt(1, 0);
-//        }
-//        ps.setString(2, keyword);
-//
-//        ResultSet result = ps.executeQuery();
-//        while (result.next()) {
-//            Region region = new Region();
-//            region.setId(result.getInt(1));
-//            region.setName(result.getString(2));
-//            regions.add(region);
-//        }
-//        return regions;
-//    }
+
+    public List<Employee> search(String searchType, String keyword) throws SQLException {
+        List<Employee> employees = new ArrayList<>();
+        if (keyword.equals("")) {
+            return getAllEmployees();
+        }
+
+        String sql = "SELECT * FROM employees WHERE lower("+ searchType +") LIKE '%' || lower(?) || '%'";
+        ps = this.conn.prepareStatement(sql);
+        ps.setString(1, keyword);
+
+        ResultSet result = ps.executeQuery();
+        while (result.next()) {
+            Employee employee = new Employee();
+            employee.setId(result.getInt(1));
+            employee.setFirstName(result.getString(2));
+            employee.setLastName(result.getString(3));
+            employee.setEmail(result.getString(4));
+            employee.setPhoneNumber(result.getString(5));
+            employee.setHireDate(result.getDate(6));
+            employee.setJobId(result.getString(7));
+            employee.setSalary(result.getInt(8));
+            employee.setCommisionPCT(result.getFloat(9));
+            employee.setManagerId(result.getInt(10));
+            employee.setDepartmentId(result.getInt(11));
+            employees.add(employee);
+        }
+        return employees;
+    }
 
     @Override
     public boolean insertEmployee(Employee employee) throws SQLException {
+        System.out.println("masuk Insert");
         sql = "INSERT INTO employees VALUES (?,?,?,?,?,?,?,?,?,?,?)";
         ps = conn.prepareStatement(sql);
         ps.setInt(1, employee.getId());
@@ -175,10 +180,5 @@ public class EmployeeDAO implements IEmployeeDAO {
         ps.setInt(1, id);
         
         return 1 == ps.executeUpdate();
-    }
-
-    @Override
-    public List<Employee> search(String input) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

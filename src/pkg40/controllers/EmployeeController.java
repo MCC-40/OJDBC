@@ -31,14 +31,17 @@ public class EmployeeController {
         this.iedao = new EmployeeDAO(new DBConnection().getConnection());
     }
 
-    public List<Employee> getData(String keyword) throws SQLException {
+    public List<Employee> getData(String searchType, String keyword) throws SQLException {
         if (isNullOrEmpty(keyword)) {
             return iedao.getAllEmployees();
         }
-        return iedao.search(keyword);
+        if (isNullOrEmpty(searchType)) {
+            searchType = "last_name";
+        }
+        return iedao.search(searchType ,keyword);
     }
 
-    public String saveEmplString(Employee employee) throws SQLException {
+    public String saveEmployee(Employee employee) throws SQLException {
         if (iedao.getById(employee.getId()).isEmpty()) {
             return (iedao.insertEmployee(employee) ? "Inserted" : "Failed");
         }

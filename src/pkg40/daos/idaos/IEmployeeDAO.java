@@ -19,7 +19,7 @@ public interface IEmployeeDAO {
 
     public List<Employee> getById(int id) throws SQLException;
 
-    public List<Employee> search(String input) throws SQLException;
+    public List<Employee> search(String searchType, String keyword) throws SQLException;
 
     public boolean insertEmployee(Employee employee) throws SQLException;
 

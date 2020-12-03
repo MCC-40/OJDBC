@@ -24,9 +24,9 @@ public class ManualTest {
 
     private static EmployeeController ec;
 
-    public static void getDataTesting(String id) throws SQLException {
+    public static void getDataTesting(String searchType, String keyword) throws SQLException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
-        List<Employee> employees = ec.getData(id);
+        List<Employee> employees = ec.getData(searchType, keyword);
         for (Employee employee : employees) {
             System.out.println(employee.getId());
             System.out.println(employee.getFirstName());
@@ -43,7 +43,7 @@ public class ManualTest {
     }
 
     public static void saveEmployeeTesting(Employee employee) throws SQLException {
-        System.out.println(ec.saveEmplString(employee));
+        System.out.println(ec.saveEmployee(employee));
     }
 
     public static void deleteTesting(String id) throws SQLException {
@@ -60,9 +60,9 @@ public class ManualTest {
         employee = new Employee(208, "test", "rrr", "qwe", "112", simpleDateFormat.parse("2021-09-30"), "AD_PRES", 1000, (float
         ) 0.1, 100, 90);
         String keyword = "";
-        saveEmployeeTesting(employee);
-        deleteTesting("208");
-        getDataTesting(keyword);
+//        saveEmployeeTesting(employee);
+//        deleteTesting("208");
+//        getDataTesting("" ,keyword);
 
     }
 
