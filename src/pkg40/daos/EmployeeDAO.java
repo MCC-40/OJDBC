@@ -129,45 +129,51 @@ public class EmployeeDAO implements IEmployeeDAO {
     @Override
     public boolean updateEmployee(Employee employee) {
         try {
-                    sql = "UPDATE employees SET "
-                + "employee_id = ?, "
-                + "first_name = ?, "
-                + "last_name = ?, "
-                + "email = ?, "
-                + "phone_number = ?, "
-                + "hire_date = ?, "
-//                + "job_id = ?, "
-                + "salary = ?, "
-                + "commission_pct = ?, "
-                + "manager_id = ? "
-//                + "department_id = ? "
-                + "WHERE employee_id = ?";
-        ps = conn.prepareStatement(sql);
-        ps.setInt(1, employee.getId());
-        ps.setString(2, employee.getFirstName());
-        ps.setString(3, employee.getLastName());
-        ps.setString(4, employee.getEmail());
-        ps.setString(5, employee.getPhoneNumber());
-        ps.setDate(6, new Date(employee.getHireDate().getTime()));
+            sql = "UPDATE employees SET "
+                    + "employee_id = ?, "
+                    + "first_name = ?, "
+                    + "last_name = ?, "
+                    + "email = ?, "
+                    + "phone_number = ?, "
+                    + "hire_date = ?, "
+                    //                + "job_id = ?, "
+                    + "salary = ?, "
+                    + "commission_pct = ?, "
+                    + "manager_id = ? "
+                    //                + "department_id = ? "
+                    + "WHERE employee_id = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, employee.getId());
+            ps.setString(2, employee.getFirstName());
+            ps.setString(3, employee.getLastName());
+            ps.setString(4, employee.getEmail());
+            ps.setString(5, employee.getPhoneNumber());
+            ps.setDate(6, new Date(employee.getHireDate().getTime()));
 //        ps.setString(7, employee.getJobId());
-        ps.setInt(7, employee.getSalary());
-        ps.setFloat(8, employee.getCommisionPCT());
-        ps.setInt(9, employee.getManagerId());
+            ps.setInt(7, employee.getSalary());
+            ps.setFloat(8, employee.getCommisionPCT());
+            ps.setInt(9, employee.getManagerId());
 //        ps.setInt(10, employee.getDepartmentId());
-        ps.setInt(10, employee.getId());
-                return 1 == ps.executeUpdate();
+            ps.setInt(10, employee.getId());
+            return 1 == ps.executeUpdate();
 
         } catch (Exception e) {
             System.out.println(e);
         }
-return true;
+        return true;
     }
 
     @Override
     public boolean deleteEmployee(int id) throws SQLException {
+        sql = "DELETE FROM job_history WHERE employee_id = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setInt(1, id);
+        ps.executeUpdate();
+        
         sql = "DELETE FROM employees WHERE employee_id = ?";
         ps = conn.prepareStatement(sql);
         ps.setInt(1, id);
+        
         return 1 == ps.executeUpdate();
     }
 

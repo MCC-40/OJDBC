@@ -61,8 +61,8 @@ public class ManualTest {
         ) 0.1, 100, 90);
         String keyword = "";
         saveEmployeeTesting(employee);
-//        deleteTesting("208");
-//        getDataTesting(keyword);
+        deleteTesting("208");
+        getDataTesting(keyword);
 
     }
 
