@@ -7,10 +7,11 @@ package pkg40.tools;
 
 import java.sql.SQLException;
 import java.util.List;
-import pkg40.controllers.RegionController;
-import pkg40.daos.RegionDAO;
-import pkg40.daos.idaos.IRegionDAO;
-import pkg40.models.Region;
+import pkg40.controllers.EmployeeController;
+import pkg40.controllers.EmployeeController;
+import pkg40.daos.EmployeeDAO;
+import pkg40.daos.idaos.IEmployeeDAO;
+import pkg40.models.Employee;
 
 /**
  *
@@ -18,31 +19,33 @@ import pkg40.models.Region;
  */
 public class ManualTest {
 
-    private static RegionController rc;
+    private static EmployeeController ec;
 
     public static void getDataTesting(String id) throws SQLException {
-        List<Region> regions = rc.getData(id);
-        for (Region region : regions) {
-            System.out.println(region.getId() + " | " + region.getName());
+        List<Employee> employees = ec.getData(id);
+        for (Employee employee : employees) {
+            System.out.println(employee.getId() + " | " + employee.getLastName());
         }
     }
 
-    public static void saveRegionTesting(Region region) throws SQLException {
-        System.out.println(rc.saveRegion(region));
+    public static void saveEmployeeTesting(Employee employee) throws SQLException {
+        System.out.println(ec.saveEmplString(employee));
     }
 
     public static void deleteTesting(String id) throws SQLException {
-        System.out.println(rc.deleteRegion(id) ? "Berhasil" : "Gagal");
+        System.out.println(ec.deleteEmployee(id) ? "Berhasil" : "Gagal");
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
-        rc = new RegionController();
-        Region region = new Region(6, "South Asia");
-        String keyword = "E";
-        
+        ec = new EmployeeController();
+        Employee employee;
+        employee = new Employee(208, "test", "test", "test", "112", "123", "AD_PRES", 1000, (float) 0.1, 90, 90);
+        String keyword = "";
+
+//        saveEmployeeTesting(employee);
         getDataTesting(keyword);
 //        mt.saveRegionTesting(region);
 //        mt.deleteTesting("6");

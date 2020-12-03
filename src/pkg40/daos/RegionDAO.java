@@ -29,15 +29,6 @@ public class RegionDAO implements IRegionDAO {
         this.conn = conn;
     }
 
-    public static boolean isNumeric(String str) {
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
     @Override
     public List<Region> getAllRegions() throws SQLException {
         List<Region> regions = new ArrayList<>();

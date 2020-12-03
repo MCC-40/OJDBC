@@ -17,8 +17,28 @@ public class Employee {
     private String email;
     private String phoneNumber;
     private String hireDate;
-    private int jobId;
+    private String jobId;
     private int salary;
+    private float commisionPCT;
+    private int managerId;
+    private int departmentId;
+
+    public Employee() {
+    }
+
+    public Employee(int id, String firstName, String lastName, String email, String phoneNumber, String hireDate, String jobId, int salary, float commisionPCT, int managerId, int departmentId) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.hireDate = hireDate;
+        this.jobId = jobId;
+        this.salary = salary;
+        this.commisionPCT = commisionPCT;
+        this.managerId = managerId;
+        this.departmentId = departmentId;
+    }
 
     public int getId() {
         return id;
@@ -68,11 +88,11 @@ public class Employee {
         this.hireDate = hireDate;
     }
 
-    public int getJobId() {
+    public String getJobId() {
         return jobId;
     }
 
-    public void setJobId(int jobId) {
+    public void setJobId(String jobId) {
         this.jobId = jobId;
     }
 
@@ -84,11 +104,11 @@ public class Employee {
         this.salary = salary;
     }
 
-    public String getCommisionPCT() {
+    public float getCommisionPCT() {
         return commisionPCT;
     }
 
-    public void setCommisionPCT(String commisionPCT) {
+    public void setCommisionPCT(float commisionPCT) {
         this.commisionPCT = commisionPCT;
     }
 
@@ -107,9 +127,4 @@ public class Employee {
     public void setDepartmentId(int departmentId) {
         this.departmentId = departmentId;
     }
-    private String commisionPCT;
-    private int managerId;
-    private int departmentId;
-    
-    
 }
