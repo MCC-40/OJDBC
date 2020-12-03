@@ -213,8 +213,6 @@ public class RegionView extends javax.swing.JFrame {
                 }
                 break;
         }
-
-
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void regionTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regionTableMouseClicked
@@ -254,7 +252,6 @@ public class RegionView extends javax.swing.JFrame {
             public void run() {
                 try {
                     new RegionView().setVisible(true);
-                    new RegionView().test();
                 } catch (SQLException ex) {
                     Logger.getLogger(RegionView.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -277,19 +274,6 @@ public class RegionView extends javax.swing.JFrame {
         return dtm;
     }
 
-    public void test() {
-        regionTable.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                JTable table = (JTable) e.getSource();
-                int column = table.columnAtPoint(e.getPoint());
-                int row = table.rowAtPoint(e.getPoint());
-
-                System.out.println("Column: " + column);
-                System.out.println("Row: " + row);
-            }
-
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button deleteButton;
