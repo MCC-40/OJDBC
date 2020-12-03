@@ -5,6 +5,8 @@
  */
 package pkg40.models;
 
+import java.util.Date;
+
 /**
  *
  * @author Yoshua
@@ -16,7 +18,7 @@ public class Employee {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private String hireDate;
+    private Date hireDate;
     private String jobId;
     private int salary;
     private float commisionPCT;
@@ -26,7 +28,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(int id, String firstName, String lastName, String email, String phoneNumber, String hireDate, String jobId, int salary, float commisionPCT, int managerId, int departmentId) {
+    public Employee(int id, String firstName, String lastName, String email, String phoneNumber, Date hireDate, String jobId, int salary, float commisionPCT, int managerId, int departmentId) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -80,11 +82,11 @@ public class Employee {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getHireDate() {
+    public Date getHireDate() {
         return hireDate;
     }
 
-    public void setHireDate(String hireDate) {
+    public void setHireDate(Date hireDate) {
         this.hireDate = hireDate;
     }
 

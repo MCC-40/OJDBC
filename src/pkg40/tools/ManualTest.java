@@ -6,6 +6,9 @@
 package pkg40.tools;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import pkg40.controllers.EmployeeController;
 import pkg40.controllers.EmployeeController;
@@ -22,9 +25,20 @@ public class ManualTest {
     private static EmployeeController ec;
 
     public static void getDataTesting(String id) throws SQLException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
         List<Employee> employees = ec.getData(id);
         for (Employee employee : employees) {
-            System.out.println(employee.getId() + " | " + employee.getLastName());
+            System.out.println(employee.getId());
+            System.out.println(employee.getFirstName());
+            System.out.println(employee.getLastName());
+            System.out.println(employee.getEmail());
+            System.out.println(employee.getPhoneNumber());
+            System.out.println(simpleDateFormat.format(employee.getHireDate()));
+            System.out.println(employee.getJobId());
+            System.out.println(employee.getSalary());
+            System.out.println(employee.getCommisionPCT());
+            System.out.println(employee.getManagerId());
+            System.out.println(employee.getDepartmentId());
         }
     }
 
@@ -39,16 +53,17 @@ public class ManualTest {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, ParseException {
         ec = new EmployeeController();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
         Employee employee;
-        employee = new Employee(208, "test", "test", "test", "112", "123", "AD_PRES", 1000, (float) 0.1, 90, 90);
+        employee = new Employee(208, "test", "asd", "qwe", "112", simpleDateFormat.parse("1998-09-30"), "AD_PRES", 1000, (float
+        ) 0.1, 100, 90);
         String keyword = "";
+        saveEmployeeTesting(employee);
+//        deleteTesting("208");
+//        getDataTesting(keyword);
 
-//        saveEmployeeTesting(employee);
-        getDataTesting(keyword);
-//        mt.saveRegionTesting(region);
-//        mt.deleteTesting("6");
     }
 
 }

@@ -6,9 +6,11 @@
 package pkg40.daos;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import pkg40.daos.idaos.IEmployeeDAO;
@@ -23,6 +25,7 @@ public class EmployeeDAO implements IEmployeeDAO {
     private Connection conn;
     private PreparedStatement ps;
     private String sql;
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
 
     //dependency
     public EmployeeDAO(Connection conn) {
@@ -42,7 +45,7 @@ public class EmployeeDAO implements IEmployeeDAO {
             employee.setLastName(result.getString(3));
             employee.setEmail(result.getString(4));
             employee.setPhoneNumber(result.getString(5));
-            employee.setHireDate(result.getString(6));
+            employee.setHireDate(result.getDate(6));
             employee.setJobId(result.getString(7));
             employee.setSalary(result.getInt(8));
             employee.setCommisionPCT(result.getFloat(9));
@@ -68,7 +71,7 @@ public class EmployeeDAO implements IEmployeeDAO {
             employee.setLastName(result.getString(3));
             employee.setEmail(result.getString(4));
             employee.setPhoneNumber(result.getString(5));
-            employee.setHireDate(result.getString(6));
+            employee.setHireDate(result.getDate(6));
             employee.setJobId(result.getString(7));
             employee.setSalary(result.getInt(8));
             employee.setCommisionPCT(result.getFloat(9));
@@ -113,7 +116,7 @@ public class EmployeeDAO implements IEmployeeDAO {
         ps.setString(3, employee.getLastName());
         ps.setString(4, employee.getEmail());
         ps.setString(5, employee.getPhoneNumber());
-        ps.setString(6, employee.getHireDate());
+        ps.setDate(6, new Date(employee.getHireDate().getTime()));
         ps.setString(7, employee.getJobId());
         ps.setInt(8, employee.getSalary());
         ps.setFloat(9, employee.getCommisionPCT());
@@ -124,18 +127,19 @@ public class EmployeeDAO implements IEmployeeDAO {
     }
 
     @Override
-    public boolean updateEmployee(Employee employee) throws SQLException {
-        sql = "UPDATE employees SET "
+    public boolean updateEmployee(Employee employee) {
+        try {
+                    sql = "UPDATE employees SET "
                 + "employee_id = ?, "
-                + "first_name = ? "
-                + "last_name = ? "
-                + "email = ? "
-                + "phone_number = ? "
-                + "hire_date = ? "
-                + "job_ide = ? "
-                + "salary = ? "
-                + "commission_pct = ? "
-                + "manager_id = ? "
+                + "first_name = ?, "
+                + "last_name = ?, "
+                + "email = ?, "
+                + "phone_number = ?, "
+                + "hire_date = ?, "
+                + "job_id = ?, "
+                + "salary = ?, "
+                + "commission_pct = ?, "
+                + "manager_id = ?, "
                 + "department_id = ? "
                 + "WHERE employee_id = ?";
         ps = conn.prepareStatement(sql);
@@ -144,19 +148,25 @@ public class EmployeeDAO implements IEmployeeDAO {
         ps.setString(3, employee.getLastName());
         ps.setString(4, employee.getEmail());
         ps.setString(5, employee.getPhoneNumber());
-        ps.setString(6, employee.getHireDate());
+        ps.setDate(6, new Date(employee.getHireDate().getTime()));
         ps.setString(7, employee.getJobId());
         ps.setInt(8, employee.getSalary());
         ps.setFloat(9, employee.getCommisionPCT());
         ps.setInt(10, employee.getManagerId());
         ps.setInt(11, employee.getDepartmentId());
         ps.setInt(12, employee.getId());
-        return 1 == ps.executeUpdate();
+                return 1 == ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.out.println("this");
+            System.out.println(e);
+        }
+return true;
     }
-    
+
     @Override
     public boolean deleteEmployee(int id) throws SQLException {
-        sql = "DELETE FROM regions WHERE region_id = ?";
+        sql = "DELETE FROM employees WHERE employee_id = ?";
         ps = conn.prepareStatement(sql);
         ps.setInt(1, id);
         return 1 == ps.executeUpdate();

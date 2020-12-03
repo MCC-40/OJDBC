@@ -86,7 +86,7 @@ public class RegionDAO implements IRegionDAO {
 
     @Override
     public boolean insertRegion(Region region) throws SQLException {
-        sql = "INSERT INTO regions(region_id, region_name) VALUES (?,?)";
+        sql = "INSERT INTO regions VALUES (?,?)";
         ps = conn.prepareStatement(sql);
         ps.setInt(1, region.getId());
         ps.setString(2, region.getName());
