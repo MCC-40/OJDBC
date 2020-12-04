@@ -63,7 +63,7 @@ public class ManualTest {
             System.out.println(employee.getDepartment());
         }
     }
-    
+
     public static void getAllDepartments() throws SQLException {
         List<Department> departments = new DepartmentController().getAllDepartments();
         for (Department department : departments) {
@@ -74,7 +74,7 @@ public class ManualTest {
 
         }
     }
-    
+
     public static void getAllJobs() throws SQLException {
         List<Job> jobs = new JobController().getAllJobs();
         for (Job job : jobs) {
@@ -108,7 +108,9 @@ public class ManualTest {
 //        deleteTesting("208");
 //        getDataTesting("", keyword);
 //        getAllManagers();
-        getAllJobs();
+//        getAllJobs();
+        System.out.println(new DepartmentController().getIdByName("Administration"));
+        System.out.println(new JobController().getIdByName("President"));
 
     }
 

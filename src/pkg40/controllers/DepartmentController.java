@@ -22,7 +22,12 @@ public class DepartmentController {
     public DepartmentController() throws SQLException {
        iddao = new DepartmenDAO(new DBConnection().getConnection());
     }
+    
     public List<Department> getAllDepartments() throws SQLException {
         return iddao.getAllDepartments();
+    }
+    
+    public int getIdByName(String name) throws SQLException{
+        return iddao.getIdByName(name);
     }
 }

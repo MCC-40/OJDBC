@@ -16,4 +16,7 @@ import pkg40.models.Job;
 public interface IJobDAO {
 
     public List<Job> getAllJobs() throws SQLException;
+
+    public String getIdByName(String title) throws SQLException;
+
 }

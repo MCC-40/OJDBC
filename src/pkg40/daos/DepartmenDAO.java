@@ -18,7 +18,8 @@ import pkg40.models.Department;
  *
  * @author Yoshua
  */
-public class DepartmenDAO implements IDepartmentDAO{
+public class DepartmenDAO implements IDepartmentDAO {
+
     private final Connection conn;
     private PreparedStatement ps;
     private String sql;
@@ -27,7 +28,7 @@ public class DepartmenDAO implements IDepartmentDAO{
     public DepartmenDAO(Connection conn) {
         this.conn = conn;
     }
-    
+
     @Override
     public List<Department> getAllDepartments() throws SQLException {
         List<Department> departments = new ArrayList<>();
@@ -44,5 +45,17 @@ public class DepartmenDAO implements IDepartmentDAO{
         }
         return departments;
     }
-    
+
+    @Override
+    public int getIdByName(String name) throws SQLException {
+        int id = 0;
+        sql = "SELECT department_id FROM departments WHERE department_name = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, name);
+        ResultSet result = ps.executeQuery();
+        while (result.next()) {
+            id = result.getInt(1);
+        }
+        return id;
+    }
 }

@@ -44,4 +44,18 @@ public class JobDAO implements IJobDAO{
         }
         return jobs;
     }
+    
+
+    @Override
+    public String getIdByName(String title) throws SQLException {
+        String id = "";
+        sql = "SELECT job_id FROM jobs WHERE job_title = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, title);
+        ResultSet result = ps.executeQuery();
+        while (result.next()) {
+            id = result.getString(1);
+        }
+        return id;
+    }
 }

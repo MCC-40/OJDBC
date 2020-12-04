@@ -14,5 +14,8 @@ import pkg40.models.Department;
  * @author Yoshua
  */
 public interface IDepartmentDAO {
-        public List<Department> getAllDepartments() throws SQLException;
+
+    public List<Department> getAllDepartments() throws SQLException;
+    
+    public int getIdByName(String name) throws SQLException;
 }

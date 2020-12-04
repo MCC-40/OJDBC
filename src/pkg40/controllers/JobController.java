@@ -17,13 +17,18 @@ import pkg40.tools.DBConnection;
  * @author Yoshua
  */
 public class JobController {
+
     private IJobDAO ijdao;
 
     public JobController() throws SQLException {
         ijdao = new JobDAO(new DBConnection().getConnection());
     }
-    
+
     public List<Job> getAllJobs() throws SQLException {
         return ijdao.getAllJobs();
+    }
+
+    public String getIdByName(String title) throws SQLException {
+        return ijdao.getIdByName(title);
     }
 }
