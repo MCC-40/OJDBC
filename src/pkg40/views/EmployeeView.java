@@ -63,11 +63,8 @@ public class EmployeeView extends javax.swing.JFrame {
         emailTextField = new javax.swing.JTextField();
         phoneNumberTextField = new javax.swing.JTextField();
         hireDateTextField = new javax.swing.JTextField();
-        jobIdTextField = new javax.swing.JTextField();
         salaryTextField = new javax.swing.JTextField();
         commissionTextField = new javax.swing.JTextField();
-        managerTextField = new javax.swing.JTextField();
-        deparmentTextField = new javax.swing.JTextField();
         searchTextField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         employeeTable = new javax.swing.JTable();
@@ -174,26 +171,13 @@ public class EmployeeView extends javax.swing.JFrame {
                             .addComponent(jLabel7)
                             .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(saveButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
-                                .addComponent(deleteButton))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(7, 7, 7)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(firstNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(lastNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(emailTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(hireDateTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(jobIdTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(salaryTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(managerTextField, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(commissionTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(deparmentTextField, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(hireDateTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JobComboBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(salaryTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(61, 61, 61)
                         .addComponent(phoneNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -206,14 +190,27 @@ public class EmployeeView extends javax.swing.JFrame {
                                 .addComponent(jLabel10)
                                 .addComponent(jLabel9)
                                 .addComponent(jLabel11)))
-                        .addGap(37, 37, 37)
-                        .addComponent(employeeIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(managerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(DepartmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JobComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(74, 74, 74)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(employeeIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(saveButton)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(deleteButton))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(commissionTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(managerComboBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(DepartmentComboBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(searchTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -260,7 +257,6 @@ public class EmployeeView extends javax.swing.JFrame {
                             .addComponent(jLabel6))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jobIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7)
                             .addComponent(JobComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
@@ -273,12 +269,10 @@ public class EmployeeView extends javax.swing.JFrame {
                             .addComponent(jLabel9))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(managerTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10)
                             .addComponent(managerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(deparmentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11)
                             .addComponent(DepartmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(21, 21, 21)
@@ -302,11 +296,11 @@ public class EmployeeView extends javax.swing.JFrame {
             employee.setEmail(emailTextField.getText());
             employee.setPhoneNumber(phoneNumberTextField.getText());
             employee.setHireDate(simpleDateFormat.parse(hireDateTextField.getText()));
-            employee.setJobId(jobIdTextField.getText());
+            employee.setJobId(jc.getIdByName(JobComboBox.getSelectedItem().toString()));
             employee.setSalary(Integer.parseInt(salaryTextField.getText()));
             employee.setCommisionPCT(Float.parseFloat(commissionTextField.getText()));
-            employee.setManager(managerTextField.getText());
-            employee.setDepartment(deparmentTextField.getText());
+            employee.setManagerId(ec.getManagerIdByName(managerComboBox.getSelectedItem().toString()));
+            employee.setDepartmentId(dc.getIdByName(DepartmentComboBox.getSelectedItem().toString()));
             ec.saveEmployee(employee);
 
             employeeIdTextField.setText("");
@@ -315,11 +309,8 @@ public class EmployeeView extends javax.swing.JFrame {
             emailTextField.setText("");
             phoneNumberTextField.setText("");
             hireDateTextField.setText("");
-            jobIdTextField.setText("");
             salaryTextField.setText("");
             commissionTextField.setText("");
-            managerTextField.setText("");
-            deparmentTextField.setText("");
 
             employeeTable.setModel(loadData("", ""));
         } catch (ParseException ex) {
@@ -349,11 +340,8 @@ public class EmployeeView extends javax.swing.JFrame {
                     emailTextField.setText("");
                     phoneNumberTextField.setText("");
                     hireDateTextField.setText("");
-                    jobIdTextField.setText("");
                     salaryTextField.setText("");
                     commissionTextField.setText("");
-                    managerTextField.setText("");
-                    deparmentTextField.setText("");
                     employeeTable.setModel(loadData("", ""));
                 } catch (SQLException ex) {
                     Logger.getLogger(RegionView.class.getName()).log(Level.SEVERE, null, ex);
@@ -459,7 +447,6 @@ public class EmployeeView extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> JobComboBox;
     private javax.swing.JTextField commissionTextField;
     private javax.swing.JButton deleteButton;
-    private javax.swing.JTextField deparmentTextField;
     private javax.swing.JTextField emailTextField;
     private javax.swing.JTextField employeeIdTextField;
     private javax.swing.JTable employeeTable;
@@ -477,10 +464,8 @@ public class EmployeeView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jobIdTextField;
     private javax.swing.JTextField lastNameTextField;
     private javax.swing.JComboBox<String> managerComboBox;
-    private javax.swing.JTextField managerTextField;
     private javax.swing.JTextField phoneNumberTextField;
     private javax.swing.JTextField salaryTextField;
     private javax.swing.JButton saveButton;

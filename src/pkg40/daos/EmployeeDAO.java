@@ -34,7 +34,6 @@ public class EmployeeDAO implements IEmployeeDAO {
 
     //dependency
     public EmployeeDAO(Connection conn) throws SQLException {
-        System.out.println("asd");
         this.conn = conn;
     }
 
