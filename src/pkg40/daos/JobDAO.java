@@ -19,20 +19,20 @@ import pkg40.models.Job;
  * @author Yoshua
  */
 public class JobDAO implements IJobDAO{
-    private final Connection conn;
+    private final Connection CONN;
     private PreparedStatement ps;
     private String sql;
 
     //dependency
     public JobDAO(Connection conn) {
-        this.conn = conn;
+        this.CONN = conn;
     }
     
     @Override
     public List<Job> getAllJobs() throws SQLException {
         List<Job> jobs = new ArrayList<>();
         sql = "SELECT * FROM jobs";
-        ps = conn.prepareStatement(sql);
+        ps = CONN.prepareStatement(sql);
         ResultSet result = ps.executeQuery();
         while (result.next()) {
             Job job  = new Job();
@@ -50,7 +50,7 @@ public class JobDAO implements IJobDAO{
     public String getIdByName(String title) throws SQLException {
         String id = "";
         sql = "SELECT job_id FROM jobs WHERE job_title = ?";
-        ps = conn.prepareStatement(sql);
+        ps = CONN.prepareStatement(sql);
         ps.setString(1, title);
         ResultSet result = ps.executeQuery();
         while (result.next()) {

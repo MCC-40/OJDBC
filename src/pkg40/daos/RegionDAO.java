@@ -20,20 +20,20 @@ import pkg40.models.Region;
  */
 public class RegionDAO implements IRegionDAO {
 
-    private final Connection conn;
+    private final Connection CONN;
     private PreparedStatement ps;
     private String sql;
 
     //dependency
     public RegionDAO(Connection conn) {
-        this.conn = conn;
+        this.CONN = conn;
     }
 
     @Override
     public List<Region> getAllRegions() throws SQLException {
         List<Region> regions = new ArrayList<>();
         sql = "SELECT * FROM regions ORDER BY region_id";
-        ps = conn.prepareStatement(sql);
+        ps = CONN.prepareStatement(sql);
         ResultSet result = ps.executeQuery();
         while (result.next()) {
             Region region = new Region();
@@ -44,10 +44,11 @@ public class RegionDAO implements IRegionDAO {
         return regions;
     }
 
+    @Override
     public List<Region> getById(int id) throws SQLException {
         List<Region> regions = new ArrayList<>();
         sql = "SELECT * FROM regions WHERE region_id = ?";
-        ps = conn.prepareStatement(sql);
+        ps = CONN.prepareStatement(sql);
         ps.setInt(1, id);
         ResultSet result = ps.executeQuery();
         while (result.next()) {
@@ -59,6 +60,7 @@ public class RegionDAO implements IRegionDAO {
         return regions;
     }
 
+    @Override
     public List<Region> search(String keyword) throws SQLException {
         List<Region> regions = new ArrayList<>();
         if (keyword.equals("")) {
@@ -66,7 +68,7 @@ public class RegionDAO implements IRegionDAO {
         }
 
         String sql = "SELECT * FROM regions WHERE region_id=? OR lower(region_name) LIKE lower(?) || '%'";
-        ps = this.conn.prepareStatement(sql);
+        ps = this.CONN.prepareStatement(sql);
         try {
             ps.setInt(1, Integer.parseInt(keyword));
         } catch (NumberFormatException e) {
@@ -87,7 +89,7 @@ public class RegionDAO implements IRegionDAO {
     @Override
     public boolean insertRegion(Region region) throws SQLException {
         sql = "INSERT INTO regions VALUES (?,?)";
-        ps = conn.prepareStatement(sql);
+        ps = CONN.prepareStatement(sql);
         ps.setInt(1, region.getId());
         ps.setString(2, region.getName());
         return 1 == ps.executeUpdate();
@@ -97,7 +99,7 @@ public class RegionDAO implements IRegionDAO {
     @Override
     public boolean updateRegion(Region region) throws SQLException {
         sql = "UPDATE regions SET region_id = ?, region_name = ? WHERE region_id = ?";
-        ps = conn.prepareStatement(sql);
+        ps = CONN.prepareStatement(sql);
         ps.setInt(1, region.getId());
         ps.setString(2, region.getName());
         ps.setInt(3, region.getId());
@@ -107,7 +109,7 @@ public class RegionDAO implements IRegionDAO {
     @Override
     public boolean deleteRegion(int id) throws SQLException {
         sql = "DELETE FROM regions WHERE region_id = ?";
-        ps = conn.prepareStatement(sql);
+        ps = CONN.prepareStatement(sql);
         ps.setInt(1, id);
         return 1 == ps.executeUpdate();
     }
