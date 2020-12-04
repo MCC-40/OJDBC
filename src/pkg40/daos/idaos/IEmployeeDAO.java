@@ -8,6 +8,8 @@ package pkg40.daos.idaos;
 import java.sql.SQLException;
 import java.util.List;
 import pkg40.models.Employee;
+import pkg40.models.modelEnum.ForeignTable;
+
 
 /**
  *
@@ -21,7 +23,7 @@ public interface IEmployeeDAO {
 
     public List<Employee> search(String searchType, String keyword) throws SQLException;
 
-    public List<Employee> getAllManagers() throws SQLException;
+//    public List<Employee> getAllManagers() throws SQLException;
 
     public int getManagerIdByName(String last_name) throws SQLException;
 
@@ -30,4 +32,6 @@ public interface IEmployeeDAO {
     public boolean updateEmployee(Employee employee) throws SQLException;
 
     public boolean deleteEmployee(int id) throws SQLException;
+
+    public <T> List<T> getForeignTable(ForeignTable table) throws SQLException;
 }

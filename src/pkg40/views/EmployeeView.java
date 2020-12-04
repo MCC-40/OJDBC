@@ -20,6 +20,7 @@ import pkg40.controllers.JobController;
 import pkg40.models.Department;
 import pkg40.models.Employee;
 import pkg40.models.Job;
+import pkg40.models.modelEnum.ForeignTable;
 
 /**
  *
@@ -435,7 +436,7 @@ public class EmployeeView extends javax.swing.JFrame {
     }
 
     private String[] setManagerComboBox() throws SQLException {
-        List<Employee> managers = ec.getALlManagers();
+        List<Employee> managers = ec.getForeignTable(ForeignTable.MANAGER);
         String[] manager = new String[managers.size()];
         for (int i = 0; i < manager.length; i++) {
             manager[i] = managers.get(i).getLastName();
@@ -444,7 +445,7 @@ public class EmployeeView extends javax.swing.JFrame {
     }
 
     private String[] setDepartmentComboBox() throws SQLException {
-        List<Department> departments = dc.getAllDepartments();
+        List<Department> departments = ec.getForeignTable(ForeignTable.DEPARTMENT);
         String[] department = new String[departments.size()];
         for (int i = 0; i < department.length; i++) {
             department[i] = departments.get(i).getName();
@@ -453,7 +454,7 @@ public class EmployeeView extends javax.swing.JFrame {
     }
 
     private String[] setJobComboBox() throws SQLException {
-        List<Job> jobs = jc.getAllJobs();
+        List<Job> jobs = ec.getForeignTable(ForeignTable.JOB);
         String[] job = new String[jobs.size()];
         for (int i = 0; i < job.length; i++) {
             job[i] = jobs.get(i).getTitle();

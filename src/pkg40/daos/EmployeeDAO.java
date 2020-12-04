@@ -13,7 +13,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import pkg40.daos.idaos.IEmployeeDAO;
+import pkg40.models.Department;
 import pkg40.models.Employee;
+import pkg40.models.Job;
+import pkg40.models.modelEnum.ForeignTable;
+
+//enum ForeignTable {
+//  DEPARTMENT,
+//  JOB,
+//  MANAGER
+//}
 
 /**
  *
@@ -106,23 +115,23 @@ public class EmployeeDAO implements IEmployeeDAO {
         return employees;
     }
 
-    @Override
-    public List<Employee> getAllManagers() throws SQLException {
-        List<Employee> managers = new ArrayList<>();
-        sql = "SELECT * FROM employees "
-                + "WHERE employee_id IN "
-                + "(SELECT manager_id FROM employees "
-                + "WHERE manager_id IS NOT NULL "
-                + "GROUP BY manager_id) "
-                + "ORDER BY employee_id";
-        ps = CONN.prepareStatement(sql);
-        ResultSet result = ps.executeQuery();
-        while (result.next()) {
-            managers.add(setEmployee(result));
-        }
-
-        return managers;
-    }
+//    @Override
+//    public List<Employee> getAllManagers() throws SQLException {
+//        List<Employee> managers = new ArrayList<>();
+//        sql = "SELECT * FROM employees "
+//                + "WHERE employee_id IN "
+//                + "(SELECT manager_id FROM employees "
+//                + "WHERE manager_id IS NOT NULL "
+//                + "GROUP BY manager_id) "
+//                + "ORDER BY employee_id";
+//        ps = CONN.prepareStatement(sql);
+//        ResultSet result = ps.executeQuery();
+//        while (result.next()) {
+//            managers.add(setEmployee(result));
+//        }
+//
+//        return managers;
+//    }
 
     @Override
     public boolean insertEmployee(Employee employee) throws SQLException {
@@ -205,5 +214,52 @@ public class EmployeeDAO implements IEmployeeDAO {
             id = result.getInt(1);
         }
         return id;
+    }
+
+    public <T> List<T> getForeignTable(ForeignTable table) throws SQLException {
+        List<T> data = new ArrayList<>();
+        ResultSet result;
+        switch (table) {
+            case DEPARTMENT:
+                sql = "SELECT * FROM departments";
+                ps = CONN.prepareStatement(sql);
+                result = ps.executeQuery();
+                while (result.next()) {
+                    Department department = new Department();
+                    department.setId(result.getInt(1));
+                    department.setName(result.getString(2));
+                    department.setManagerId(result.getInt(3));
+                    department.setLocationId(result.getInt(3));
+                    data.add((T) department);
+                }
+                break;
+            case JOB:
+                sql = "SELECT * FROM jobs";
+                ps = CONN.prepareStatement(sql);
+                result = ps.executeQuery();
+                while (result.next()) {
+                    Job job = new Job();
+                    job.setId(result.getString(1));
+                    job.setTitle(result.getString(2));
+                    job.setMinSalary(result.getInt(3));
+                    job.setMaxSalary(result.getInt(4));
+                    data.add((T) job);
+                }
+                break;
+            case MANAGER:
+                sql = "SELECT * FROM employees "
+                        + "WHERE employee_id IN "
+                        + "(SELECT manager_id FROM employees "
+                        + "WHERE manager_id IS NOT NULL "
+                        + "GROUP BY manager_id) "
+                        + "ORDER BY employee_id";
+                ps = CONN.prepareStatement(sql);
+                result = ps.executeQuery();
+                while (result.next()) {
+                    data.add((T) setEmployee(result));
+                }
+                break;
+        }
+        return data;
     }
 }

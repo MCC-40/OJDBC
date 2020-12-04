@@ -10,6 +10,7 @@ import java.util.List;
 import pkg40.daos.EmployeeDAO;
 import pkg40.daos.idaos.IEmployeeDAO;
 import pkg40.models.Employee;
+import pkg40.models.modelEnum.ForeignTable;
 import pkg40.tools.DBConnection;
 
 /**
@@ -41,9 +42,9 @@ public class EmployeeController {
         return iedao.search(searchType, keyword);
     }
 
-    public List<Employee> getALlManagers() throws SQLException {
-        return iedao.getAllManagers();
-    }
+//    public List<Employee> getALlManagers() throws SQLException {
+//        return iedao.getAllManagers();
+//    }
 
     public String saveEmployee(Employee employee) throws SQLException {
         if (iedao.getById(employee.getId()).isEmpty()) {
@@ -58,5 +59,9 @@ public class EmployeeController {
 
     public int getManagerIdByName(String last_name) throws SQLException {
         return iedao.getManagerIdByName(last_name);
+    }
+    
+    public <T> List<T> getForeignTable(ForeignTable table) throws SQLException{
+        return iedao.getForeignTable(table);
     }
 }

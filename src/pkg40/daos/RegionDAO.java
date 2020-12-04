@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import pkg40.daos.idaos.IRegionDAO;
+import pkg40.models.Department;
 import pkg40.models.Region;
 
 /**

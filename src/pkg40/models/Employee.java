@@ -7,6 +7,12 @@ package pkg40.models;
 
 import java.util.Date;
 
+enum ForeignTable {
+  DEPARTMENT,
+  JOB,
+  MANAGER
+}
+
 /**
  *
  * @author Yoshua

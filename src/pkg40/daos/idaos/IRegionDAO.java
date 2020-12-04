@@ -26,4 +26,5 @@ public interface IRegionDAO {
     public boolean updateRegion(Region region) throws SQLException;
 
     public boolean deleteRegion(int id) throws SQLException;
+ 
 }
