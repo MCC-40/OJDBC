@@ -57,8 +57,8 @@ public class EmployeeController {
         return iedao.deleteEmployee(Integer.parseInt(id));
     }
 
-    public int getManagerIdByName(String last_name) throws SQLException {
-        return iedao.getManagerIdByName(last_name);
+    public <T> T getIdByName(ForeignTable table, String last_name) throws SQLException {
+        return iedao.getIdByName(table, last_name);
     }
     
     public <T> List<T> getForeignTable(ForeignTable table) throws SQLException{

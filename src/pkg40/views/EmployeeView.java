@@ -14,9 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import pkg40.controllers.DepartmentController;
 import pkg40.controllers.EmployeeController;
-import pkg40.controllers.JobController;
 import pkg40.models.Department;
 import pkg40.models.Employee;
 import pkg40.models.Job;
@@ -29,8 +27,7 @@ import pkg40.models.modelEnum.ForeignTable;
 public class EmployeeView extends javax.swing.JFrame {
 
     EmployeeController ec;
-    DepartmentController dc;
-    JobController jc;
+
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
 
     /**
@@ -39,8 +36,6 @@ public class EmployeeView extends javax.swing.JFrame {
     public EmployeeView() throws SQLException {
         initComponents();
         ec = new EmployeeController();
-        dc = new DepartmentController();
-        jc = new JobController();
 
         employeeTable.setDefaultEditor(Object.class, null);
         employeeTable.setModel(loadData("", ""));
@@ -302,11 +297,13 @@ public class EmployeeView extends javax.swing.JFrame {
             employee.setEmail(emailTextField.getText());
             employee.setPhoneNumber(phoneNumberTextField.getText());
             employee.setHireDate(simpleDateFormat.parse(hireDateTextField.getText()));
-            employee.setJobId(jc.getIdByName(JobComboBox.getSelectedItem().toString()));
+            employee.setJobId(ec.getIdByName(ForeignTable.JOB, JobComboBox.getSelectedItem().toString())+"");
             employee.setSalary(Integer.parseInt(salaryTextField.getText()));
             employee.setCommisionPCT(Float.parseFloat(commissionTextField.getText()));
-            employee.setManagerId(ec.getManagerIdByName(managerComboBox.getSelectedItem().toString()));
-            employee.setDepartmentId(dc.getIdByName(DepartmentComboBox.getSelectedItem().toString()));
+            employee.setManagerId(Integer.parseInt(ec.getIdByName(ForeignTable.MANAGER, managerComboBox.getSelectedItem().toString())));
+            employee.setDepartmentId(Integer.parseInt(ec.getIdByName(ForeignTable.DEPARTMENT, DepartmentComboBox.getSelectedItem().toString())));
+            System.out.println(employee.getManagerId());
+            System.out.println(employee.getDepartmentId());
             ec.saveEmployee(employee);
 
             employeeIdTextField.setText("");

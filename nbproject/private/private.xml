@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ms1/Documents/NetBeansProjects/40-OJDBC/src/pkg40/daos/EmployeeDAO.java</file>
             <file>file:/C:/Users/ms1/Documents/NetBeansProjects/40-OJDBC/src/pkg40/views/EmployeeView.java</file>
-            <file>file:/C:/Users/ms1/Documents/NetBeansProjects/40-OJDBC/src/pkg40/daos/JobDAO.java</file>
-            <file>file:/C:/Users/ms1/Documents/NetBeansProjects/40-OJDBC/src/pkg40/daos/idaos/IRegionDAO.java</file>
-            <file>file:/C:/Users/ms1/Documents/NetBeansProjects/40-OJDBC/src/pkg40/daos/DepartmentDAO.java</file>
-            <file>file:/C:/Users/ms1/Documents/NetBeansProjects/40-OJDBC/src/pkg40/daos/RegionDAO.java</file>
+            <file>file:/C:/Users/ms1/Documents/NetBeansProjects/40-OJDBC/src/pkg40/tools/ManualTest.java</file>
+            <file>file:/C:/Users/ms1/Documents/NetBeansProjects/40-OJDBC/src/pkg40/views/RegionView.java</file>
         </group>
     </open-files>
 </project-private>

@@ -23,7 +23,6 @@ import pkg40.models.modelEnum.ForeignTable;
 //  JOB,
 //  MANAGER
 //}
-
 /**
  *
  * @author Yoshua
@@ -132,9 +131,21 @@ public class EmployeeDAO implements IEmployeeDAO {
 //
 //        return managers;
 //    }
-
     @Override
     public boolean insertEmployee(Employee employee) throws SQLException {
+
+        System.out.println(employee.getId());
+        System.out.println(employee.getFirstName());
+        System.out.println(employee.getLastName());
+        System.out.println(employee.getEmail());
+        System.out.println(employee.getPhoneNumber());
+        System.out.println(employee.getHireDate());
+        System.out.println(employee.getJobId());
+        System.out.println(employee.getSalary());
+        System.out.println(employee.getCommisionPCT());
+        System.out.println(employee.getManagerId());
+        System.out.println(employee.getDepartmentId());
+
         sql = "INSERT INTO employees VALUES (?,?,?,?,?,?,?,?,?,?,?)";
         ps = CONN.prepareStatement(sql);
         ps.setInt(1, employee.getId());
@@ -204,16 +215,50 @@ public class EmployeeDAO implements IEmployeeDAO {
     }
 
     @Override
-    public int getManagerIdByName(String last_name) throws SQLException {
-        int id = 0;
-        sql = "SELECT employee_id FROM employees WHERE last_name = ? AND employee_id IN (SELECT manager_id FROM employees)";
-        ps = CONN.prepareStatement(sql);
-        ps.setString(1, last_name);
-        ResultSet result = ps.executeQuery();
-        while (result.next()) {
-            id = result.getInt(1);
+//    public int getManagerIdByName(String last_name) throws SQLException {
+//        int id = 0;
+//        sql = "SELECT employee_id FROM employees WHERE last_name = ? AND employee_id IN (SELECT manager_id FROM employees)";
+//        ps = CONN.prepareStatement(sql);
+//        ps.setString(1, last_name);
+//        ResultSet result = ps.executeQuery();
+//        while (result.next()) {
+//            id = result.getInt(1);
+//        }
+//        return id;
+//    }
+    public <T> T getIdByName(ForeignTable table, String name) throws SQLException {
+        String id = null;
+        ResultSet result;
+        switch (table) {
+            case DEPARTMENT:
+                sql = "SELECT department_id FROM departments WHERE department_name = ?";
+                ps = CONN.prepareStatement(sql);
+                ps.setString(1, name);
+                result = ps.executeQuery();
+                while (result.next()) {
+                    id = result.getString(1);
+                }
+                break;
+            case JOB:
+                sql = "SELECT job_id FROM jobs WHERE job_title = ?";
+                ps = CONN.prepareStatement(sql);
+                ps.setString(1, name);
+                result = ps.executeQuery();
+                while (result.next()) {
+                    id = result.getString(1);
+                }
+                break;
+            case MANAGER:
+                sql = "SELECT employee_id FROM employees WHERE last_name = ? AND employee_id IN (SELECT manager_id FROM employees)";
+                ps = CONN.prepareStatement(sql);
+                ps.setString(1, name);
+                result = ps.executeQuery();
+                while (result.next()) {
+                    id = result.getString(1);
+                }
+                break;
         }
-        return id;
+        return (T) id;
     }
 
     public <T> List<T> getForeignTable(ForeignTable table) throws SQLException {

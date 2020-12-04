@@ -10,15 +10,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import pkg40.controllers.DepartmentController;
 import pkg40.controllers.EmployeeController;
 import pkg40.controllers.EmployeeController;
-import pkg40.controllers.JobController;
 import pkg40.daos.EmployeeDAO;
 import pkg40.daos.idaos.IEmployeeDAO;
 import pkg40.models.Department;
 import pkg40.models.Employee;
 import pkg40.models.Job;
+import pkg40.models.modelEnum.ForeignTable;
 
 /**
  *
@@ -26,7 +25,7 @@ import pkg40.models.Job;
  */
 public class ManualTest {
 //
-//    private static EmployeeController ec;
+    private static EmployeeController ec;
 //
 //    public static void getDataTesting(String searchType, String keyword) throws SQLException {
 //        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
@@ -98,7 +97,7 @@ public class ManualTest {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException, ParseException {
-//        ec = new EmployeeController();
+        ec = new EmployeeController();
 //        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
 //        Employee employee;
 //        employee = new Employee(208, "test", "rrr", "qwe", "112", simpleDateFormat.parse("2021-09-30"), "AD_PRES", 1000, (float
@@ -113,7 +112,7 @@ public class ManualTest {
 //        System.out.println(new JobController().getIdByName("President"));
 //          System.out.println(ec.getManagerIdByName("King"));
 //        Employee ft = new ;
-        System.out.println();
+        System.out.println(ec.getIdByName(ForeignTable.DEPARTMENT, "Administration").toString());
     }
 
 }

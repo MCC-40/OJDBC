@@ -25,7 +25,7 @@ public interface IEmployeeDAO {
 
 //    public List<Employee> getAllManagers() throws SQLException;
 
-    public int getManagerIdByName(String last_name) throws SQLException;
+    public <T> T getIdByName(ForeignTable table, String name) throws SQLException;
 
     public boolean insertEmployee(Employee employee) throws SQLException;
 
