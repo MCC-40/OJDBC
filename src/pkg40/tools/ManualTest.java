@@ -10,11 +10,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import pkg40.controllers.DepartmentController;
 import pkg40.controllers.EmployeeController;
 import pkg40.controllers.EmployeeController;
+import pkg40.controllers.JobController;
 import pkg40.daos.EmployeeDAO;
 import pkg40.daos.idaos.IEmployeeDAO;
+import pkg40.models.Department;
 import pkg40.models.Employee;
+import pkg40.models.Job;
 
 /**
  *
@@ -59,6 +63,28 @@ public class ManualTest {
             System.out.println(employee.getDepartment());
         }
     }
+    
+    public static void getAllDepartments() throws SQLException {
+        List<Department> departments = new DepartmentController().getAllDepartments();
+        for (Department department : departments) {
+            System.out.println(department.getId());
+            System.out.println(department.getName());
+            System.out.println(department.getManagerId());
+            System.out.println(department.getLocationId());
+
+        }
+    }
+    
+    public static void getAllJobs() throws SQLException {
+        List<Job> jobs = new JobController().getAllJobs();
+        for (Job job : jobs) {
+            System.out.println(job.getId());
+            System.out.println(job.getTitle());
+            System.out.println(job.getMaxSalary());
+            System.out.println(job.getMaxSalary());
+
+        }
+    }
 
     public static void saveEmployeeTesting(Employee employee) throws SQLException {
         System.out.println(ec.saveEmployee(employee));
@@ -81,7 +107,8 @@ public class ManualTest {
 //        saveEmployeeTesting(employee);
 //        deleteTesting("208");
 //        getDataTesting("", keyword);
-        getAllManagers();
+//        getAllManagers();
+        getAllJobs();
 
     }
 

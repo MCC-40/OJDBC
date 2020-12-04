@@ -20,7 +20,7 @@ import pkg40.models.Region;
  */
 public class RegionDAO implements IRegionDAO {
 
-    private Connection conn;
+    private final Connection conn;
     private PreparedStatement ps;
     private String sql;
 

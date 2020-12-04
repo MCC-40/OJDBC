@@ -14,8 +14,12 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import pkg40.controllers.DepartmentController;
 import pkg40.controllers.EmployeeController;
+import pkg40.controllers.JobController;
+import pkg40.models.Department;
 import pkg40.models.Employee;
+import pkg40.models.Job;
 
 /**
  *
@@ -35,6 +39,8 @@ public class EmployeeView extends javax.swing.JFrame {
         employeeTable.setDefaultEditor(Object.class, null);
         employeeTable.setModel(loadData("", ""));
         managerComboBox.setModel(new DefaultComboBoxModel(setManagerComboBox()));
+        DepartmentComboBox.setModel(new DefaultComboBoxModel(setDepartmentComboBox()));
+        JobComboBox.setModel(new DefaultComboBoxModel(setJobComboBox()));
     }
 
     /**
@@ -76,6 +82,8 @@ public class EmployeeView extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         managerComboBox = new javax.swing.JComboBox<>();
+        DepartmentComboBox = new javax.swing.JComboBox<>();
+        JobComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -144,6 +152,10 @@ public class EmployeeView extends javax.swing.JFrame {
             }
         });
 
+        DepartmentComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        JobComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,7 +204,10 @@ public class EmployeeView extends javax.swing.JFrame {
                         .addGap(37, 37, 37)
                         .addComponent(employeeIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(managerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(managerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DepartmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JobComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -241,7 +256,8 @@ public class EmployeeView extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jobIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel7)
+                            .addComponent(JobComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(salaryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -258,7 +274,8 @@ public class EmployeeView extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(deparmentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))
+                            .addComponent(jLabel11)
+                            .addComponent(DepartmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(saveButton)
@@ -411,8 +428,29 @@ public class EmployeeView extends javax.swing.JFrame {
         }
         return manager;
     }
+    
+    private String[] setDepartmentComboBox() throws SQLException {
+        List<Department> departments = new DepartmentController().getAllDepartments();
+        String[] department = new String[departments.size()];
+        for (int i = 0; i < department.length; i++) {
+            department[i] = departments.get(i).getName();
+        }
+        return department;
+    }
+    
+    private String[] setJobComboBox() throws SQLException {
+        List<Job> jobs = new JobController().getAllJobs();
+        String[] job = new String[jobs.size()];
+        for (int i = 0; i < job.length; i++) {
+            job[i] = jobs.get(i).getTitle();
+        }
+        return job;
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> DepartmentComboBox;
+    private javax.swing.JComboBox<String> JobComboBox;
     private javax.swing.JTextField commissionTextField;
     private javax.swing.JButton deleteButton;
     private javax.swing.JTextField deparmentTextField;
