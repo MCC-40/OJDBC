@@ -623,7 +623,7 @@ public class EmployeeView extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private DefaultTableModel loadData(String keyword, int sortIndex, int searchIndex) throws SQLException {
 
-        List<Employee> employees = ec.searchEmployee(keyword, searchIndex - 1, sortIndex);
+        List<Employee> employees = ec.searchEmployee(keyword, searchIndex, sortIndex);
 
         String[][] employeeCells = new String[employees.size()][12];
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd yyyy");

@@ -239,7 +239,7 @@ public class EmployeeDAO implements IEmployeeDAO {
             return getAllEmployees();
         }
 
-        String column = getColumnName(columnIndex);
+        String column;
         switch (columnIndex) {
             case 7:
                 column = "j.job_title";
@@ -251,7 +251,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                 column = "d.department_name";
                 break;
             default:
-                column = "e." + column;
+                column = "e." + getColumnName(columnIndex);
                 break;
         }
 
