@@ -40,7 +40,7 @@ public class EmployeeView extends javax.swing.JFrame {
         ec = new EmployeeController();
         dc = new DepartmentController();
         jc = new JobController();
-        
+
         employeeTable.setDefaultEditor(Object.class, null);
         employeeTable.setModel(loadData("", ""));
         managerComboBox.setModel(new DefaultComboBoxModel(setManagerComboBox()));
@@ -100,6 +100,11 @@ public class EmployeeView extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        employeeTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                employeeTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(employeeTable);
 
         saveButton.setText("Save");
@@ -354,6 +359,20 @@ public class EmployeeView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_managerComboBoxActionPerformed
 
+    private void employeeTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_employeeTableMouseClicked
+        employeeIdTextField.setText(employeeTable.getValueAt(employeeTable.getSelectedRow(), 0).toString());
+        firstNameTextField.setText(employeeTable.getValueAt(employeeTable.getSelectedRow(), 1).toString());
+        lastNameTextField.setText(employeeTable.getValueAt(employeeTable.getSelectedRow(), 2).toString());
+        emailTextField.setText(employeeTable.getValueAt(employeeTable.getSelectedRow(), 3).toString());
+        phoneNumberTextField.setText(employeeTable.getValueAt(employeeTable.getSelectedRow(), 4).toString());
+        hireDateTextField.setText(employeeTable.getValueAt(employeeTable.getSelectedRow(), 5).toString());
+        JobComboBox.setSelectedItem(employeeTable.getValueAt(employeeTable.getSelectedRow(), 6).toString());
+        salaryTextField.setText(employeeTable.getValueAt(employeeTable.getSelectedRow(), 7).toString());
+        commissionTextField.setText(employeeTable.getValueAt(employeeTable.getSelectedRow(), 8).toString());
+        managerComboBox.setSelectedItem(employeeTable.getValueAt(employeeTable.getSelectedRow(), 9).toString());
+        DepartmentComboBox.setSelectedItem(employeeTable.getValueAt(employeeTable.getSelectedRow(), 10).toString());
+    }//GEN-LAST:event_employeeTableMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -395,19 +414,20 @@ public class EmployeeView extends javax.swing.JFrame {
 
     private DefaultTableModel loadData(String searchType, String keyword) throws SQLException {
         List<Employee> employees = ec.getData(searchType, keyword);
-        String[] headers = {"ID", "Name", "Email", "Phone Number", "Hire Date", "Job Id", "Salary", "Commission", "Manager", "Department"};
-        String[][] employeeCells = new String[employees.size()][10];
+        String[] headers = {"ID", "First Name", "Last Name", "Email", "Phone Number", "Hire Date", "Job Id", "Salary", "Commission", "Manager", "Department"};
+        String[][] employeeCells = new String[employees.size()][11];
         for (int i = 0; i < employeeCells.length; i++) {
             employeeCells[i][0] = employees.get(i).getId() + "";
             employeeCells[i][1] = employees.get(i).getFirstName() + " " + employees.get(i).getLastName();
-            employeeCells[i][2] = employees.get(i).getEmail();
-            employeeCells[i][3] = employees.get(i).getPhoneNumber();
-            employeeCells[i][4] = employees.get(i).getHireDate().toString();
-            employeeCells[i][5] = employees.get(i).getJobId();
-            employeeCells[i][6] = employees.get(i).getSalary() + "";
-            employeeCells[i][7] = employees.get(i).getCommisionPCT() + "";
-            employeeCells[i][8] = employees.get(i).getManager() + "";
-            employeeCells[i][9] = employees.get(i).getDepartment() + "";
+            employeeCells[i][2] = employees.get(i).getLastName();
+            employeeCells[i][3] = employees.get(i).getEmail();
+            employeeCells[i][4] = employees.get(i).getPhoneNumber();
+            employeeCells[i][5] = simpleDateFormat.format(employees.get(i).getHireDate());
+            employeeCells[i][6] = employees.get(i).getJobId();
+            employeeCells[i][7] = employees.get(i).getSalary() + "";
+            employeeCells[i][8] = employees.get(i).getCommisionPCT() + "";
+            employeeCells[i][9] = employees.get(i).getManager() + "";
+            employeeCells[i][10] = employees.get(i).getDepartment() + "";
         }
 
         DefaultTableModel dtm = new DefaultTableModel(employeeCells, headers);
@@ -422,7 +442,7 @@ public class EmployeeView extends javax.swing.JFrame {
         }
         return manager;
     }
-    
+
     private String[] setDepartmentComboBox() throws SQLException {
         List<Department> departments = dc.getAllDepartments();
         String[] department = new String[departments.size()];
@@ -431,7 +451,7 @@ public class EmployeeView extends javax.swing.JFrame {
         }
         return department;
     }
-    
+
     private String[] setJobComboBox() throws SQLException {
         List<Job> jobs = jc.getAllJobs();
         String[] job = new String[jobs.size()];
@@ -440,7 +460,7 @@ public class EmployeeView extends javax.swing.JFrame {
         }
         return job;
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> DepartmentComboBox;
