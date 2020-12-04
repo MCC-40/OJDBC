@@ -7,7 +7,7 @@ package pkg40.models;
 
 /**
  *
- * @author Mochamad Yusuf
+ * @author asus
  */
 public class Region {
     private int id;

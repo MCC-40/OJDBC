@@ -16,7 +16,7 @@ import pkg40.models.Region;
 
 /**
  *
- * @author Mochamad Yusuf
+ * @author asus
  */
 public class RegionDAO implements IRegionDAO {
 

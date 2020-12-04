@@ -15,7 +15,7 @@ import pkg40.tools.DBConnection;
 
 /**
  *
- * @author Mochamad Yusuf
+ * @author asus
  */
 public class RegionController {
 

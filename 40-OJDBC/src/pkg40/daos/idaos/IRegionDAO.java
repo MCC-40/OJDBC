@@ -11,7 +11,7 @@ import pkg40.models.Region;
 
 /**
  *
- * @author Mochamad Yusuf
+ * @author asus
  */
 public interface IRegionDAO {
     

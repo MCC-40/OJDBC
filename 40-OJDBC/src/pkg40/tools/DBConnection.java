@@ -11,7 +11,7 @@ import oracle.jdbc.pool.OracleDataSource;
 
 /**
  *
- * @author Mochamad Yusuf
+ * @author asus
  */
 public class DBConnection {
 
