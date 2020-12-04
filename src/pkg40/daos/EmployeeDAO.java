@@ -13,6 +13,9 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import pkg40.controllers.DepartmentController;
+import pkg40.controllers.EmployeeController;
+import pkg40.controllers.JobController;
 import pkg40.daos.idaos.IEmployeeDAO;
 import pkg40.models.Employee;
 
@@ -23,12 +26,18 @@ import pkg40.models.Employee;
 public class EmployeeDAO implements IEmployeeDAO {
 
     private final Connection CONN;
+    private EmployeeController ec;
+    private DepartmentController dc;
+    private JobController jc;
     private PreparedStatement ps;
     private String sql;
 
     //dependency
-    public EmployeeDAO(Connection conn) {
+    public EmployeeDAO(Connection conn) throws SQLException {
         this.CONN = conn;
+        ec = new EmployeeController();
+        dc = new DepartmentController();
+        jc = new JobController();
     }
 
     @Override
@@ -160,7 +169,6 @@ public class EmployeeDAO implements IEmployeeDAO {
 
     @Override
     public boolean insertEmployee(Employee employee) throws SQLException {
-        System.out.println("masuk Insert");
         sql = "INSERT INTO employees VALUES (?,?,?,?,?,?,?,?,?,?,?)";
         ps = CONN.prepareStatement(sql);
         ps.setInt(1, employee.getId());
@@ -169,11 +177,11 @@ public class EmployeeDAO implements IEmployeeDAO {
         ps.setString(4, employee.getEmail());
         ps.setString(5, employee.getPhoneNumber());
         ps.setDate(6, new Date(employee.getHireDate().getTime()));
-        ps.setString(7, employee.getJobId());
+        ps.setString(7, jc.getIdByName(employee.getJobId()));
         ps.setInt(8, employee.getSalary());
         ps.setFloat(9, employee.getCommisionPCT());
-        ps.setString(10, employee.getManager());
-        ps.setString(11, employee.getDepartment());
+        ps.setInt(10, ec.getManagerIdByName(employee.getManager()));
+        ps.setInt(11, dc.getIdByName(employee.getDepartment()));
         return 1 == ps.executeUpdate();
 
     }
@@ -227,5 +235,18 @@ public class EmployeeDAO implements IEmployeeDAO {
         ps.setInt(1, id);
 
         return 1 == ps.executeUpdate();
+    }
+
+    @Override
+    public int getManagerIdByName(String last_name) throws SQLException {
+        int id = 0;
+        sql = "SELECT employee_id FROM employees WHERE last_name = ?";
+        ps = CONN.prepareStatement(sql);
+        ps.setString(1, last_name);
+        ResultSet result = ps.executeQuery();
+        while (result.next()) {
+            id = result.getInt(1);
+        }
+        return id;
     }
 }

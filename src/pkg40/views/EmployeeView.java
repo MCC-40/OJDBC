@@ -28,6 +28,8 @@ import pkg40.models.Job;
 public class EmployeeView extends javax.swing.JFrame {
 
     EmployeeController ec;
+    DepartmentController dc;
+    JobController jc;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
 
     /**
@@ -36,6 +38,9 @@ public class EmployeeView extends javax.swing.JFrame {
     public EmployeeView() throws SQLException {
         initComponents();
         ec = new EmployeeController();
+        dc = new DepartmentController();
+        jc = new JobController();
+        
         employeeTable.setDefaultEditor(Object.class, null);
         employeeTable.setModel(loadData("", ""));
         managerComboBox.setModel(new DefaultComboBoxModel(setManagerComboBox()));
@@ -288,6 +293,7 @@ public class EmployeeView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+
         try {
             Employee employee = new Employee();
             employee.setId(Integer.parseInt(employeeIdTextField.getText()));
@@ -430,7 +436,7 @@ public class EmployeeView extends javax.swing.JFrame {
     }
     
     private String[] setDepartmentComboBox() throws SQLException {
-        List<Department> departments = new DepartmentController().getAllDepartments();
+        List<Department> departments = dc.getAllDepartments();
         String[] department = new String[departments.size()];
         for (int i = 0; i < department.length; i++) {
             department[i] = departments.get(i).getName();
@@ -439,7 +445,7 @@ public class EmployeeView extends javax.swing.JFrame {
     }
     
     private String[] setJobComboBox() throws SQLException {
-        List<Job> jobs = new JobController().getAllJobs();
+        List<Job> jobs = jc.getAllJobs();
         String[] job = new String[jobs.size()];
         for (int i = 0; i < job.length; i++) {
             job[i] = jobs.get(i).getTitle();

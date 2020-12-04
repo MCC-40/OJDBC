@@ -55,4 +55,8 @@ public class EmployeeController {
     public boolean deleteEmployee(String id) throws SQLException {
         return iedao.deleteEmployee(Integer.parseInt(id));
     }
+
+    public int getManagerIdByName(String last_name) throws SQLException {
+        return iedao.getManagerIdByName(last_name);
+    }
 }
