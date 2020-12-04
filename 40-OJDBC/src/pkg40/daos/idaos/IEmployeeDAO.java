@@ -18,6 +18,8 @@ public interface IEmployeeDAO {
     
     public List<Employee> getAllEmployees(int sortByColumn) throws SQLException;
     
+    public int getNewId() throws SQLException;
+    
     public boolean insertEmployee(Employee employee) throws SQLException;
     
     public boolean updateEmployee(Employee employee) throws SQLException;

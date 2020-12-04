@@ -12,22 +12,22 @@ import java.sql.Date;
  * @author Mochamad Yusuf
  */
 public class Employee {
-    private int id;
+    private Integer id;
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
     private Date hireDate;
     private String jobId;
-    private int salary;
-    private float commissionPct;
-    private int managerId;
-    private int departmentId;
+    private Integer salary;
+    private Float commissionPct;
+    private Integer managerId;
+    private Integer departmentId;
 
     public Employee() {
     }
 
-    public Employee(int id, String firstName, String lastName, String email, String phoneNumber, Date hireDate, String jobId, int salary, float commissionPct, int managerId, int departmentId) {
+    public Employee(Integer id, String firstName, String lastName, String email, String phoneNumber, Date hireDate, String jobId, Integer salary, Float commissionPct, Integer managerId, Integer departmentId) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,14 +44,14 @@ public class Employee {
     /**
      * @return the id
      */
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -142,56 +142,56 @@ public class Employee {
     /**
      * @return the salary
      */
-    public int getSalary() {
+    public Integer getSalary() {
         return salary;
     }
 
     /**
      * @param salary the salary to set
      */
-    public void setSalary(int salary) {
+    public void setSalary(Integer salary) {
         this.salary = salary;
     }
 
     /**
      * @return the commissionPct
      */
-    public float getCommissionPct() {
+    public Float getCommissionPct() {
         return commissionPct;
     }
 
     /**
      * @param commissionPct the commissionPct to set
      */
-    public void setCommissionPct(float commissionPct) {
+    public void setCommissionPct(Float commissionPct) {
         this.commissionPct = commissionPct;
     }
 
     /**
      * @return the managerId
      */
-    public int getManagerId() {
+    public Integer getManagerId() {
         return managerId;
     }
 
     /**
      * @param managerId the managerId to set
      */
-    public void setManagerId(int managerId) {
+    public void setManagerId(Integer managerId) {
         this.managerId = managerId;
     }
 
     /**
      * @return the departmentId
      */
-    public int getDepartmentId() {
+    public Integer getDepartmentId() {
         return departmentId;
     }
 
     /**
      * @param departmentId the departmentId to set
      */
-    public void setDepartmentId(int departmentId) {
+    public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
     }
     

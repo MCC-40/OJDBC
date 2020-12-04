@@ -7,6 +7,7 @@ package pkg40.views;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -14,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DateFormatter;
+import javax.swing.text.DefaultFormatterFactory;
 import pkg40.controllers.DepartmentController;
 import pkg40.controllers.EmployeeController;
 import pkg40.controllers.JobController;
@@ -32,6 +35,7 @@ public class EmployeeView extends javax.swing.JFrame {
     JobController jc;
     int searchColumn = 1;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd yyyy");
+    DateFormatter dateFormatter = new DateFormatter(simpleDateFormat);
     String[] headers = {"No", "ID", "First Name", "Last Name", "Email", "Phone Number", "Hire Date",
         "Job", "Salary", "Commission", "Manager", "Deparment"};
     String[] columns = {"ID", "First Name", "Last Name", "Email", "Phone Number", "Hire Date",
@@ -51,17 +55,21 @@ public class EmployeeView extends javax.swing.JFrame {
             employeeTable.setModel(loadData("", 1, 1));
             // Manager Combo Box
             List<Employee> employees = ec.searchEmployee("", 1, 2);
-            String empoyeeNames[] = new String[employees.size()];
-            for (int i = 0; i < empoyeeNames.length; i++) {
-                empoyeeNames[i] = employees.get(i).getFirstName() + " " + employees.get(i).getLastName();
+            String employeeNames[] = new String[employees.size() + 1];
+
+            employeeNames[0] = "No Manager";
+            for (int i = 1; i < employeeNames.length; i++) {
+                employeeNames[i] = employees.get(i - 1).getFirstName() + " " + employees.get(i - 1).getLastName();
             }
-            managerComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(empoyeeNames));
+            managerComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(employeeNames));
 
             // Department Combo Box
             List<Department> departments = dc.getAllDepartments(1);
-            String departmentNames[] = new String[departments.size()];
-            for (int i = 0; i < departmentNames.length; i++) {
-                departmentNames[i] = departments.get(i).getName();
+            String departmentNames[] = new String[departments.size() + 1];
+
+            departmentNames[0] = "No Department";
+            for (int i = 1; i < departmentNames.length; i++) {
+                departmentNames[i] = departments.get(i - 1).getName();
             }
             departmentComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(departmentNames));
 
@@ -72,8 +80,12 @@ public class EmployeeView extends javax.swing.JFrame {
                 jobNames[i] = jobs.get(i).getTitle();
             }
             jobComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(jobNames));
+
             // Search Combo Box
             searchComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(columns));
+
+            // Date Picker
+            hireDatePicker.setFormats("MMM dd, yyyy");
         } catch (SQLException ex) {
             Logger.getLogger(EmployeeView.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -91,11 +103,14 @@ public class EmployeeView extends javax.swing.JFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jFrame1 = new javax.swing.JFrame();
         jButton2 = new javax.swing.JButton();
+        jDatePickerUtil1 = new org.jdatepicker.util.JDatePickerUtil();
+        jDateComponentFactory1 = new org.jdatepicker.JDateComponentFactory();
+        jDateComponentFactory2 = new org.jdatepicker.JDateComponentFactory();
+        jDatePickerUtil2 = new org.jdatepicker.util.JDatePickerUtil();
         idTextField = new javax.swing.JTextField();
         firstNameTextField = new javax.swing.JTextField();
         lastNameTextField = new javax.swing.JTextField();
         emailTextField = new javax.swing.JTextField();
-        hireDateTextField = new javax.swing.JFormattedTextField();
         phoneTextField = new javax.swing.JTextField();
         jobComboBox = new javax.swing.JComboBox<>();
         commissionTextField = new javax.swing.JTextField();
@@ -121,6 +136,8 @@ public class EmployeeView extends javax.swing.JFrame {
         employeeTable = new javax.swing.JTable();
         searchComboBox = new javax.swing.JComboBox<>();
         newIdButton = new javax.swing.JButton();
+        hireDatePicker = new org.jdesktop.swingx.JXDatePicker();
+        clearFieldsButton = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -178,7 +195,7 @@ public class EmployeeView extends javax.swing.JFrame {
 
         departmentComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel1.setText("employee id");
+        jLabel1.setText("Employee id");
 
         jLabel2.setText("First name");
 
@@ -221,6 +238,11 @@ public class EmployeeView extends javax.swing.JFrame {
         });
 
         deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
         employeeTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -254,47 +276,56 @@ public class EmployeeView extends javax.swing.JFrame {
             }
         });
 
+        clearFieldsButton.setText("Clear Fields");
+        clearFieldsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearFieldsButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(deleteButton, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(saveButton, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(emailTextField)
-                    .addComponent(phoneTextField)
-                    .addComponent(hireDateTextField)
-                    .addComponent(commissionTextField)
-                    .addComponent(managerComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(departmentComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(lastNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)))
-                    .addComponent(salaryField)
-                    .addComponent(jobComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(idTextField))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(newIdButton)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(clearFieldsButton)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(deleteButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(saveButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(emailTextField)
+                        .addComponent(phoneTextField)
+                        .addComponent(commissionTextField)
+                        .addComponent(managerComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(departmentComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addComponent(jLabel5)
+                        .addComponent(jLabel6)
+                        .addComponent(jLabel7)
+                        .addComponent(jLabel8)
+                        .addComponent(jLabel9)
+                        .addComponent(jLabel10)
+                        .addComponent(jLabel11)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2)
+                                .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addComponent(lastNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)))
+                        .addComponent(salaryField)
+                        .addComponent(jobComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(idTextField))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(newIdButton))
+                        .addComponent(hireDatePicker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -342,7 +373,7 @@ public class EmployeeView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6)
                         .addGap(0, 0, 0)
-                        .addComponent(hireDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(hireDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel7)
                         .addGap(0, 0, 0)
@@ -366,7 +397,9 @@ public class EmployeeView extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(saveButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteButton))
+                        .addComponent(deleteButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(clearFieldsButton))
                     .addComponent(jScrollPane2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -403,10 +436,10 @@ public class EmployeeView extends javax.swing.JFrame {
                     lastNameTextField.getText(),
                     emailTextField.getText(),
                     phoneTextField.getText(),
-                    new Date(simpleDateFormat.parse(hireDateTextField.getText()).getTime()),
+                    new Date(hireDatePicker.getDate().getTime()),
                     getJobId(),
                     Integer.parseInt(salaryField.getValue().toString()),
-                    Float.parseFloat(commissionTextField.getText().isEmpty() ? "0.0" : commissionTextField.getText()),
+                    commissionTextField.getText().isEmpty() ? null : Float.parseFloat(commissionTextField.getText()),
                     getManagerId(),
                     getDepartmentId()
             );
@@ -414,8 +447,6 @@ public class EmployeeView extends javax.swing.JFrame {
             ec.saveEmployee(employee);
             employeeTable.setModel(loadData("", 1, 1));
         } catch (SQLException ex) {
-            Logger.getLogger(EmployeeView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
             Logger.getLogger(EmployeeView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_saveButtonActionPerformed
@@ -440,16 +471,9 @@ public class EmployeeView extends javax.swing.JFrame {
     }//GEN-LAST:event_searchComboBoxActionPerformed
 
     private void newIdButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newIdButtonActionPerformed
-        // TODO add your handling code here:
-
         try {
-            int newId = 0;
-            for (Employee e : ec.getAllEmployees(1)) {
-                if (newId < e.getId()) {
-                    newId = e.getId() + 1;
-                }
-            }
-            idTextField.setText(newId + "");
+            // TODO add your handling code here:
+            idTextField.setText(ec.getNewId() + "");
         } catch (SQLException ex) {
             Logger.getLogger(EmployeeView.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -462,24 +486,65 @@ public class EmployeeView extends javax.swing.JFrame {
             int row = employeeTable.getSelectedRow();
             String id = employeeTable.getModel().getValueAt(row, 1).toString();
             Employee employee = ec.getById(Integer.parseInt(id));
+
             idTextField.setText(id);
             firstNameTextField.setText(employee.getFirstName());
             lastNameTextField.setText(employee.getLastName());
             emailTextField.setText(employee.getEmail());
             phoneTextField.setText(employee.getPhoneNumber());
-            hireDateTextField.setText(simpleDateFormat.format(employee.getHireDate()));
+            hireDatePicker.setDate(employee.getHireDate());
+//            hireDateTextField.setText(simpleDateFormat.format(employee.getHireDate()));
             jobComboBox.setSelectedItem(employeeTable.getModel().getValueAt(row, 7).toString());
             salaryField.setValue(employee.getSalary());
-            commissionTextField.setText(employee.getCommissionPct() + "");
-            
-            Employee manager = ec.getById(employee.getManagerId());
-            managerComboBox.setSelectedItem(manager.getFirstName() 
-                    + " " + manager.getLastName());
-            departmentComboBox.setSelectedItem(employeeTable.getModel().getValueAt(row, 11).toString());
+            if (employee.getCommissionPct() != null) {
+                commissionTextField.setText(employee.getCommissionPct() + "");
+            } else {
+                commissionTextField.setText("");
+            }
+
+            if (employee.getManagerId() != null) {
+                Employee manager = ec.getById(employee.getManagerId());
+                managerComboBox.setSelectedItem(manager.getFirstName()
+                        + " " + manager.getLastName());
+            } else {
+                managerComboBox.setSelectedIndex(0);
+            }
+            if (employeeTable.getModel().getValueAt(row, 11) != "-") {
+                departmentComboBox.setSelectedItem(employeeTable.getModel().getValueAt(row, 11));
+            } else {
+                departmentComboBox.setSelectedIndex(0);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(EmployeeView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_employeeTableMouseClicked
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        try {
+            // TODO add your handling code here:
+            ec.deleteEmployee(Integer.parseInt(idTextField.getText()));
+            employeeTable.setModel(loadData("", 1, 1));
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void clearFieldsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFieldsButtonActionPerformed
+        // TODO add your handling code here:
+        idTextField.setText("");
+        firstNameTextField.setText("");
+        lastNameTextField.setText("");
+        emailTextField.setText("");
+        phoneTextField.setText("");
+        hireDatePicker.setDate(new Date(System.currentTimeMillis()));
+        //            hireDateTextField.setText(simpleDateFormat.format(employee.getHireDate()));
+        jobComboBox.setSelectedIndex(0);
+        salaryField.setValue(0);
+        commissionTextField.setText("0.0");
+
+        managerComboBox.setSelectedIndex(0);
+        departmentComboBox.setSelectedIndex(0);
+    }//GEN-LAST:event_clearFieldsButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -517,15 +582,20 @@ public class EmployeeView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton clearFieldsButton;
     private javax.swing.JTextField commissionTextField;
     private javax.swing.JButton deleteButton;
     private javax.swing.JComboBox<String> departmentComboBox;
     private javax.swing.JTextField emailTextField;
     private javax.swing.JTable employeeTable;
     private javax.swing.JTextField firstNameTextField;
-    private javax.swing.JFormattedTextField hireDateTextField;
+    private org.jdesktop.swingx.JXDatePicker hireDatePicker;
     private javax.swing.JTextField idTextField;
     private javax.swing.JButton jButton2;
+    private org.jdatepicker.JDateComponentFactory jDateComponentFactory1;
+    private org.jdatepicker.JDateComponentFactory jDateComponentFactory2;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil1;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil2;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
@@ -571,30 +641,49 @@ public class EmployeeView extends javax.swing.JFrame {
                 employeeCells[i][7] = "";
             }
             employeeCells[i][8] = employees.get(i).getSalary() + "";
-            employeeCells[i][9] = employees.get(i).getCommissionPct() + "";
-            if (employees.get(i).getManagerId() != 0) {
-                employeeCells[i][10] = ec.getById(employees.get(i).getManagerId()).getLastName() + "";
+            if (employees.get(i).getCommissionPct() != null) {
+                employeeCells[i][9] = employees.get(i).getCommissionPct() + "";
+            } else {
+                employeeCells[i][9] = "-";
             }
-            if (employees.get(i).getDepartmentId() != 0) {
+            if (employees.get(i).getManagerId() != null) {
+                employeeCells[i][10] = ec.getById(employees.get(i).getManagerId()).getLastName() + "";
+            } else {
+                employeeCells[i][10] = "-";
+            }
+            if (employees.get(i).getDepartmentId() != null) {
                 employeeCells[i][11] = dc.getById(employees.get(i).getDepartmentId()).getName() + "";
+            } else {
+                employeeCells[i][11] = "-";
             }
         }
         DefaultTableModel dtm = new DefaultTableModel(employeeCells, headers);
         return dtm;
     }
 
-    private int getManagerId() throws SQLException {
+    private Integer getManagerId() throws SQLException {
         List<Employee> employees = ec.searchEmployee("", 1, 2);
-        return employees.get(managerComboBox.getSelectedIndex()).getId();
+        int index = managerComboBox.getSelectedIndex();
+        if (index == 0) {
+            return null;
+        } else {
+            return employees.get(index - 1).getId();
+        }
+
     }
 
     private String getJobId() throws SQLException {
         List<Job> jobs = jc.getAllJobs(1);
         return jobs.get(jobComboBox.getSelectedIndex()).getId();
     }
-    
-    private int getDepartmentId() throws SQLException{
+
+    private Integer getDepartmentId() throws SQLException {
         List<Department> departments = dc.getAllDepartments(1);
-        return departments.get(departmentComboBox.getSelectedIndex()).getId();
+        int index = departmentComboBox.getSelectedIndex();
+        if (index == 0) {
+            return null;
+        } else {
+            return departments.get(index - 1).getId();
+        }
     }
 }

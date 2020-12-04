@@ -23,6 +23,10 @@ public class EmployeeController {
     public EmployeeController() throws SQLException {
         this.iedao = new EmployeeDAO(new DBConnection().getConnection());
     }
+    
+    public int getNewId() throws SQLException{
+        return this.iedao.getNewId();
+    }
 
     public List<Employee> getAllEmployees(int sortByColumn) throws SQLException {
         List<Employee> employees = iedao.getAllEmployees(sortByColumn);

@@ -47,6 +47,18 @@ public class EmployeeDAO implements IEmployeeDAO {
     }
 
     @Override
+    public int getNewId() throws SQLException {
+        String sql = "SELECT MAX(employee_id) FROM employees";
+        ps = connection.prepareStatement(sql);
+        ResultSet result = ps.executeQuery();
+        if (result.next()) {
+            return result.getInt(1) + 1;
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
     public List<Employee> getAllEmployees() throws SQLException {
         List<Employee> employees = new ArrayList<>();
         String sql = "SELECT * FROM employees ORDER BY 1";
@@ -62,9 +74,9 @@ public class EmployeeDAO implements IEmployeeDAO {
                     result.getDate(6),
                     result.getString(7),
                     result.getInt(8),
-                    result.getFloat(9),
-                    result.getInt(10),
-                    result.getInt(11));
+                    result.getObject(9) == null ? null : result.getFloat(9),
+                    result.getObject(10) == null ? null : result.getInt(10),
+                    result.getObject(11) == null ? null : result.getInt(11));
             employees.add(employee);
         }
         ps.close();
@@ -91,9 +103,9 @@ public class EmployeeDAO implements IEmployeeDAO {
                     result.getDate(6),
                     result.getString(7),
                     result.getInt(8),
-                    result.getFloat(9),
-                    result.getInt(10),
-                    result.getInt(11));
+                    result.getObject(9) == null ? null : result.getFloat(9),
+                    result.getObject(10) == null ? null : result.getInt(10),
+                    result.getObject(11) == null ? null : result.getInt(11));
             employees.add(employee);
         }
         return employees;
@@ -114,9 +126,23 @@ public class EmployeeDAO implements IEmployeeDAO {
         ps.setDate(6, employee.getHireDate());
         ps.setString(7, employee.getJobId());
         ps.setInt(8, employee.getSalary());
-        ps.setFloat(9, employee.getCommissionPct());
-        ps.setInt(10, employee.getManagerId());
-        ps.setInt(11, employee.getDepartmentId());
+        if (employee.getCommissionPct() == null) {
+            ps.setNull(9, java.sql.Types.FLOAT);
+        } else {
+            ps.setFloat(9, employee.getCommissionPct());
+        }
+
+        if (employee.getManagerId() == null) {
+            ps.setNull(10, java.sql.Types.INTEGER);
+        } else {
+            ps.setInt(10, employee.getManagerId());
+        }
+
+        if (employee.getDepartmentId() == null) {
+            ps.setNull(11, java.sql.Types.INTEGER);
+        } else {
+            ps.setInt(11, employee.getDepartmentId());
+        }
         int result = ps.executeUpdate();
         ps.close();
         return result == 1;
@@ -145,9 +171,23 @@ public class EmployeeDAO implements IEmployeeDAO {
         ps.setDate(5, employee.getHireDate());
         ps.setString(6, employee.getJobId());
         ps.setInt(7, employee.getSalary());
-        ps.setFloat(8, employee.getCommissionPct());
-        ps.setInt(9, employee.getManagerId());
-        ps.setInt(10, employee.getDepartmentId());
+        if (employee.getCommissionPct() == null) {
+            ps.setNull(8, java.sql.Types.FLOAT);
+        } else {
+            ps.setFloat(8, employee.getCommissionPct());
+        }
+
+        if (employee.getManagerId() == null) {
+            ps.setNull(9, java.sql.Types.INTEGER);
+        } else {
+            ps.setInt(9, employee.getManagerId());
+        }
+
+        if (employee.getDepartmentId() == null) {
+            ps.setNull(10, java.sql.Types.INTEGER);
+        } else {
+            ps.setInt(10, employee.getDepartmentId());
+        }
 
         ps.setInt(11, employee.getId());
         int result = ps.executeUpdate();
@@ -157,7 +197,12 @@ public class EmployeeDAO implements IEmployeeDAO {
 
     @Override
     public boolean deleteEmployee(int id) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "Delete FROM employees WHERE employee_id=?";
+        ps = this.connection.prepareStatement(sql);
+        ps.setInt(1, id);
+        int result = ps.executeUpdate();
+        ps.close();
+        return result == 1;
     }
 
     @Override
@@ -176,9 +221,9 @@ public class EmployeeDAO implements IEmployeeDAO {
                     result.getDate(6),
                     result.getString(7),
                     result.getInt(8),
-                    result.getFloat(9),
-                    result.getInt(10),
-                    result.getInt(11)
+                    result.getObject(9) == null ? null : result.getFloat(9),
+                    result.getObject(10) == null ? null : result.getInt(10),
+                    result.getObject(11) == null ? null : result.getInt(11)
             );
             ps.close();
             return employee;
@@ -235,9 +280,10 @@ public class EmployeeDAO implements IEmployeeDAO {
                     result.getDate(6),
                     result.getString(7),
                     result.getInt(8),
-                    result.getFloat(9),
-                    result.getInt(10),
-                    result.getInt(11));
+                    result.getObject(9) == null ? null : result.getFloat(9),
+                    result.getObject(10) == null ? null : result.getInt(10),
+                    result.getObject(11) == null ? null : result.getInt(11)
+            );
             employees.add(employee);
         }
         ps.close();
