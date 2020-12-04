@@ -19,27 +19,27 @@ public class Employee {
     private String email;
     private String phoneNumber;
     private Date hireDate;
-    private String jobId;
+    private String job;
     private int salary;
     private float commisionPCT;
-    private int managerId;
-    private int departmentId;
+    private String manager;
+    private String department;
 
     public Employee() {
     }
 
-    public Employee(int id, String firstName, String lastName, String email, String phoneNumber, Date hireDate, String jobId, int salary, float commisionPCT, int managerId, int departmentId) {
+    public Employee(int id, String firstName, String lastName, String email, String phoneNumber, Date hireDate, String job, int salary, float commisionPCT, String manager, String department) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.hireDate = hireDate;
-        this.jobId = jobId;
+        this.job = job;
         this.salary = salary;
         this.commisionPCT = commisionPCT;
-        this.managerId = managerId;
-        this.departmentId = departmentId;
+        this.manager = manager;
+        this.department = department;
     }
 
     public int getId() {
@@ -91,11 +91,11 @@ public class Employee {
     }
 
     public String getJobId() {
-        return jobId;
+        return job;
     }
 
-    public void setJobId(String jobId) {
-        this.jobId = jobId;
+    public void setJobId(String job) {
+        this.job = job;
     }
 
     public int getSalary() {
@@ -114,19 +114,19 @@ public class Employee {
         this.commisionPCT = commisionPCT;
     }
 
-    public int getManagerId() {
-        return managerId;
+    public String getManager() {
+        return manager;
     }
 
-    public void setManagerId(int managerId) {
-        this.managerId = managerId;
+    public void setManager(String manager) {
+        this.manager = manager;
     }
 
-    public int getDepartmentId() {
-        return departmentId;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setDepartmentId(int departmentId) {
-        this.departmentId = departmentId;
+    public void setDepartment(String department) {
+        this.department = department;
     }
 }

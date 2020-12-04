@@ -17,7 +17,7 @@ import pkg40.tools.DBConnection;
  * @author Yoshua
  */
 public class EmployeeController {
-    
+
     private IEmployeeDAO iedao;
 
     private static boolean isNullOrEmpty(String str) {
@@ -38,7 +38,11 @@ public class EmployeeController {
         if (isNullOrEmpty(searchType)) {
             searchType = "last_name";
         }
-        return iedao.search(searchType ,keyword);
+        return iedao.search(searchType, keyword);
+    }
+
+    public List<Employee> getALlManagers() throws SQLException {
+        return iedao.getAllManagers();
     }
 
     public String saveEmployee(Employee employee) throws SQLException {

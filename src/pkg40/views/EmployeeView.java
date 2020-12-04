@@ -11,11 +11,11 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pkg40.controllers.EmployeeController;
 import pkg40.models.Employee;
-import pkg40.models.Region;
 
 /**
  *
@@ -34,7 +34,7 @@ public class EmployeeView extends javax.swing.JFrame {
         ec = new EmployeeController();
         employeeTable.setDefaultEditor(Object.class, null);
         employeeTable.setModel(loadData("", ""));
-
+        managerComboBox.setModel(new DefaultComboBoxModel(setManagerComboBox()));
     }
 
     /**
@@ -75,6 +75,7 @@ public class EmployeeView extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        managerComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -126,7 +127,7 @@ public class EmployeeView extends javax.swing.JFrame {
 
         jLabel6.setText("Hire Date");
 
-        jLabel7.setText("Job ID");
+        jLabel7.setText("Job");
 
         jLabel8.setText("Salary");
 
@@ -135,6 +136,13 @@ public class EmployeeView extends javax.swing.JFrame {
         jLabel10.setText("Manager");
 
         jLabel11.setText("Department");
+
+        managerComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        managerComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                managerComboBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -183,7 +191,9 @@ public class EmployeeView extends javax.swing.JFrame {
                                 .addComponent(jLabel11)))
                         .addGap(37, 37, 37)
                         .addComponent(employeeIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(managerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(searchTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -243,7 +253,8 @@ public class EmployeeView extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(managerTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10))
+                            .addComponent(jLabel10)
+                            .addComponent(managerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(deparmentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -271,8 +282,8 @@ public class EmployeeView extends javax.swing.JFrame {
             employee.setJobId(jobIdTextField.getText());
             employee.setSalary(Integer.parseInt(salaryTextField.getText()));
             employee.setCommisionPCT(Float.parseFloat(commissionTextField.getText()));
-            employee.setManagerId(Integer.parseInt(managerTextField.getText()));
-            employee.setDepartmentId(Integer.parseInt(deparmentTextField.getText()));
+            employee.setManager(managerTextField.getText());
+            employee.setDepartment(deparmentTextField.getText());
             ec.saveEmployee(employee);
 
             employeeIdTextField.setText("");
@@ -328,6 +339,10 @@ public class EmployeeView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
+    private void managerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_managerComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_managerComboBoxActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -380,12 +395,21 @@ public class EmployeeView extends javax.swing.JFrame {
             employeeCells[i][5] = employees.get(i).getJobId();
             employeeCells[i][6] = employees.get(i).getSalary() + "";
             employeeCells[i][7] = employees.get(i).getCommisionPCT() + "";
-            employeeCells[i][8] = employees.get(i).getManagerId() + "";
-            employeeCells[i][9] = employees.get(i).getDepartmentId() + "";
+            employeeCells[i][8] = employees.get(i).getManager() + "";
+            employeeCells[i][9] = employees.get(i).getDepartment() + "";
         }
 
         DefaultTableModel dtm = new DefaultTableModel(employeeCells, headers);
         return dtm;
+    }
+
+    private String[] setManagerComboBox() throws SQLException {
+        List<Employee> managers = ec.getALlManagers();
+        String[] manager = new String[managers.size()];
+        for (int i = 0; i < manager.length; i++) {
+            manager[i] = managers.get(i).getLastName();
+        }
+        return manager;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -411,6 +435,7 @@ public class EmployeeView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jobIdTextField;
     private javax.swing.JTextField lastNameTextField;
+    private javax.swing.JComboBox<String> managerComboBox;
     private javax.swing.JTextField managerTextField;
     private javax.swing.JTextField phoneNumberTextField;
     private javax.swing.JTextField salaryTextField;

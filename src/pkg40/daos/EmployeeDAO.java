@@ -22,21 +22,28 @@ import pkg40.models.Employee;
  */
 public class EmployeeDAO implements IEmployeeDAO {
 
-    private Connection conn;
+    private final Connection CONN;
     private PreparedStatement ps;
     private String sql;
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
 
     //dependency
     public EmployeeDAO(Connection conn) {
-        this.conn = conn;
+        this.CONN = conn;
     }
 
     @Override
     public List<Employee> getAllEmployees() throws SQLException {
         List<Employee> employees = new ArrayList<>();
-        sql = "SELECT * FROM employees ORDER BY employee_id";
-        ps = conn.prepareStatement(sql);
+        sql = "SELECT e.employee_id, e.first_name, e.last_name, e.email, e.phone_number, e.hire_date, job_title, "
+                + "e.salary, e.commission_pct, m.last_name, d.department_name "
+                + "FROM employees e "
+                + "NATURAL JOIN jobs "
+                + "LEFT OUTER JOIN employees m "
+                + "ON (e.manager_id = m.employee_id) "
+                + "LEFT OUTER JOIN departments d "
+                + "ON (e.department_id = d.department_id) "
+                + "ORDER BY employee_id";
+        ps = CONN.prepareStatement(sql);
         ResultSet result = ps.executeQuery();
         while (result.next()) {
             Employee employee = new Employee();
@@ -49,8 +56,8 @@ public class EmployeeDAO implements IEmployeeDAO {
             employee.setJobId(result.getString(7));
             employee.setSalary(result.getInt(8));
             employee.setCommisionPCT(result.getFloat(9));
-            employee.setManagerId(result.getInt(10));
-            employee.setDepartmentId(result.getInt(11));
+            employee.setManager(result.getString(10));
+            employee.setDepartment(result.getString(11));
 
             employees.add(employee);
         }
@@ -58,10 +65,11 @@ public class EmployeeDAO implements IEmployeeDAO {
         return employees;
     }
 
+    @Override
     public List<Employee> getById(int id) throws SQLException {
         List<Employee> employees = new ArrayList<>();
         sql = "SELECT * FROM employees WHERE employee_id = ?";
-        ps = conn.prepareStatement(sql);
+        ps = CONN.prepareStatement(sql);
         ps.setInt(1, id);
         ResultSet result = ps.executeQuery();
         while (result.next()) {
@@ -75,21 +83,30 @@ public class EmployeeDAO implements IEmployeeDAO {
             employee.setJobId(result.getString(7));
             employee.setSalary(result.getInt(8));
             employee.setCommisionPCT(result.getFloat(9));
-            employee.setManagerId(result.getInt(10));
-            employee.setDepartmentId(result.getInt(11));
+            employee.setManager(result.getString(10));
+            employee.setDepartment(result.getString(11));
             employees.add(employee);
         }
         return employees;
     }
 
+    @Override
     public List<Employee> search(String searchType, String keyword) throws SQLException {
         List<Employee> employees = new ArrayList<>();
         if (keyword.equals("")) {
             return getAllEmployees();
         }
 
-        String sql = "SELECT * FROM employees WHERE lower("+ searchType +") LIKE '%' || lower(?) || '%'";
-        ps = this.conn.prepareStatement(sql);
+        String sql = "SELECT e.employee_id, e.first_name, e.last_name, e.email, e.phone_number, e.hire_date, job_title, "
+                + "e.salary, e.commission_pct, m.last_name, d.department_name "
+                + "FROM employees e "
+                + "NATURAL JOIN jobs "
+                + "LEFT OUTER JOIN employees m "
+                + "ON (e.manager_id = m.employee_id) "
+                + "LEFT OUTER JOIN departments d "
+                + "ON (e.department_id = d.department_id) "
+                + "WHERE lower(e." + searchType + ") LIKE '%' || lower(?) || '%'";
+        ps = this.CONN.prepareStatement(sql);
         ps.setString(1, keyword);
 
         ResultSet result = ps.executeQuery();
@@ -104,18 +121,48 @@ public class EmployeeDAO implements IEmployeeDAO {
             employee.setJobId(result.getString(7));
             employee.setSalary(result.getInt(8));
             employee.setCommisionPCT(result.getFloat(9));
-            employee.setManagerId(result.getInt(10));
-            employee.setDepartmentId(result.getInt(11));
+            employee.setManager(result.getString(10));
+            employee.setDepartment(result.getString(11));
             employees.add(employee);
         }
         return employees;
+    }
+
+    public List<Employee> getAllManagers() throws SQLException {
+        List<Employee> managers = new ArrayList<>();
+        sql = "SELECT * FROM employees "
+                + "WHERE employee_id IN "
+                + "(SELECT manager_id FROM employees "
+                + "WHERE manager_id IS NOT NULL "
+                + "GROUP BY manager_id) "
+                + "ORDER BY employee_id";
+        ps = CONN.prepareStatement(sql);
+        ResultSet result = ps.executeQuery();
+        while (result.next()) {
+            Employee manager = new Employee();
+            manager.setId(result.getInt(1));
+            manager.setFirstName(result.getString(2));
+            manager.setLastName(result.getString(3));
+            manager.setEmail(result.getString(4));
+            manager.setPhoneNumber(result.getString(5));
+            manager.setHireDate(result.getDate(6));
+            manager.setJobId(result.getString(7));
+            manager.setSalary(result.getInt(8));
+            manager.setCommisionPCT(result.getFloat(9));
+            manager.setManager(result.getString(10));
+            manager.setDepartment(result.getString(11));
+
+            managers.add(manager);
+        }
+
+        return managers;
     }
 
     @Override
     public boolean insertEmployee(Employee employee) throws SQLException {
         System.out.println("masuk Insert");
         sql = "INSERT INTO employees VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-        ps = conn.prepareStatement(sql);
+        ps = CONN.prepareStatement(sql);
         ps.setInt(1, employee.getId());
         ps.setString(2, employee.getFirstName());
         ps.setString(3, employee.getLastName());
@@ -125,8 +172,8 @@ public class EmployeeDAO implements IEmployeeDAO {
         ps.setString(7, employee.getJobId());
         ps.setInt(8, employee.getSalary());
         ps.setFloat(9, employee.getCommisionPCT());
-        ps.setInt(10, employee.getManagerId());
-        ps.setInt(11, employee.getDepartmentId());
+        ps.setString(10, employee.getManager());
+        ps.setString(11, employee.getDepartment());
         return 1 == ps.executeUpdate();
 
     }
@@ -147,7 +194,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                     + "manager_id = ? "
                     //                + "department_id = ? "
                     + "WHERE employee_id = ?";
-            ps = conn.prepareStatement(sql);
+            ps = CONN.prepareStatement(sql);
             ps.setInt(1, employee.getId());
             ps.setString(2, employee.getFirstName());
             ps.setString(3, employee.getLastName());
@@ -157,12 +204,12 @@ public class EmployeeDAO implements IEmployeeDAO {
 //        ps.setString(7, employee.getJobId());
             ps.setInt(7, employee.getSalary());
             ps.setFloat(8, employee.getCommisionPCT());
-            ps.setInt(9, employee.getManagerId());
+            ps.setString(9, employee.getManager());
 //        ps.setInt(10, employee.getDepartmentId());
             ps.setInt(10, employee.getId());
             return 1 == ps.executeUpdate();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println(e);
         }
         return true;
@@ -171,14 +218,14 @@ public class EmployeeDAO implements IEmployeeDAO {
     @Override
     public boolean deleteEmployee(int id) throws SQLException {
         sql = "DELETE FROM job_history WHERE employee_id = ?";
-        ps = conn.prepareStatement(sql);
+        ps = CONN.prepareStatement(sql);
         ps.setInt(1, id);
         ps.executeUpdate();
-        
+
         sql = "DELETE FROM employees WHERE employee_id = ?";
-        ps = conn.prepareStatement(sql);
+        ps = CONN.prepareStatement(sql);
         ps.setInt(1, id);
-        
+
         return 1 == ps.executeUpdate();
     }
 }

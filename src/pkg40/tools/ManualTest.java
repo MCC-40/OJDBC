@@ -37,8 +37,26 @@ public class ManualTest {
             System.out.println(employee.getJobId());
             System.out.println(employee.getSalary());
             System.out.println(employee.getCommisionPCT());
-            System.out.println(employee.getManagerId());
-            System.out.println(employee.getDepartmentId());
+            System.out.println(employee.getManager());
+            System.out.println(employee.getDepartment());
+        }
+    }
+
+    public static void getAllManagers() throws SQLException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        List<Employee> employees = ec.getALlManagers();
+        for (Employee employee : employees) {
+            System.out.println(employee.getId());
+            System.out.println(employee.getFirstName());
+            System.out.println(employee.getLastName());
+            System.out.println(employee.getEmail());
+            System.out.println(employee.getPhoneNumber());
+            System.out.println(simpleDateFormat.format(employee.getHireDate()));
+            System.out.println(employee.getJobId());
+            System.out.println(employee.getSalary());
+            System.out.println(employee.getCommisionPCT());
+            System.out.println(employee.getManager());
+            System.out.println(employee.getDepartment());
         }
     }
 
@@ -57,12 +75,13 @@ public class ManualTest {
         ec = new EmployeeController();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
         Employee employee;
-        employee = new Employee(208, "test", "rrr", "qwe", "112", simpleDateFormat.parse("2021-09-30"), "AD_PRES", 1000, (float
-        ) 0.1, 100, 90);
+//        employee = new Employee(208, "test", "rrr", "qwe", "112", simpleDateFormat.parse("2021-09-30"), "AD_PRES", 1000, (float
+//        ) 0.1, 100, 90);
         String keyword = "";
 //        saveEmployeeTesting(employee);
 //        deleteTesting("208");
-//        getDataTesting("" ,keyword);
+//        getDataTesting("", keyword);
+        getAllManagers();
 
     }
 
