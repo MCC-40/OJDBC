@@ -7,7 +7,7 @@ package pkg40.controllers;
 
 import java.sql.SQLException;
 import java.util.List;
-import pkg40.daos.DepartmenDAO;
+import pkg40.daos.DepartmentDAO;
 import pkg40.models.Department;
 import pkg40.daos.idaos.IDepartmentDAO;
 import pkg40.tools.DBConnection;
@@ -20,7 +20,7 @@ public class DepartmentController {
     private IDepartmentDAO iddao;
     
     public DepartmentController() throws SQLException {
-       iddao = new DepartmenDAO(new DBConnection().getConnection());
+       iddao = new DepartmentDAO(new DBConnection().getConnection());
     }
     
     public List<Department> getAllDepartments() throws SQLException {

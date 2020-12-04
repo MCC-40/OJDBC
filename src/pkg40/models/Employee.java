@@ -20,10 +20,13 @@ public class Employee {
     private String phoneNumber;
     private Date hireDate;
     private String job;
+    private String jobId;
     private int salary;
     private float commisionPCT;
     private String manager;
+    private int managerId;
     private String department;
+    private int departmentId;
 
     public Employee() {
     }
@@ -129,4 +132,29 @@ public class Employee {
     public void setDepartment(String department) {
         this.department = department;
     }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public int getManagerId() {
+        return managerId;
+    }
+
+    public void setManagerId(int managerId) {
+        this.managerId = managerId;
+    }
+
+    public int getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
+    }
+    
 }

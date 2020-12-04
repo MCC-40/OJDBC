@@ -25,19 +25,17 @@ import pkg40.models.Employee;
  */
 public class EmployeeDAO implements IEmployeeDAO {
 
-    private final Connection CONN;
-    private EmployeeController ec;
-    private DepartmentController dc;
-    private JobController jc;
+    private Connection conn;
+//    private EmployeeController ec = new EmployeeController();
+//    private DepartmentController dc = new DepartmentController();
+//    private JobController jc = new JobController();
     private PreparedStatement ps;
     private String sql;
 
     //dependency
     public EmployeeDAO(Connection conn) throws SQLException {
-        this.CONN = conn;
-        ec = new EmployeeController();
-        dc = new DepartmentController();
-        jc = new JobController();
+        System.out.println("asd");
+        this.conn = conn;
     }
 
     @Override
@@ -52,7 +50,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                 + "LEFT OUTER JOIN departments d "
                 + "ON (e.department_id = d.department_id) "
                 + "ORDER BY employee_id";
-        ps = CONN.prepareStatement(sql);
+        ps = conn.prepareStatement(sql);
         ResultSet result = ps.executeQuery();
         while (result.next()) {
             Employee employee = new Employee();
@@ -78,7 +76,7 @@ public class EmployeeDAO implements IEmployeeDAO {
     public List<Employee> getById(int id) throws SQLException {
         List<Employee> employees = new ArrayList<>();
         sql = "SELECT * FROM employees WHERE employee_id = ?";
-        ps = CONN.prepareStatement(sql);
+        ps = conn.prepareStatement(sql);
         ps.setInt(1, id);
         ResultSet result = ps.executeQuery();
         while (result.next()) {
@@ -115,7 +113,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                 + "LEFT OUTER JOIN departments d "
                 + "ON (e.department_id = d.department_id) "
                 + "WHERE lower(e." + searchType + ") LIKE '%' || lower(?) || '%'";
-        ps = this.CONN.prepareStatement(sql);
+        ps = this.conn.prepareStatement(sql);
         ps.setString(1, keyword);
 
         ResultSet result = ps.executeQuery();
@@ -145,7 +143,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                 + "WHERE manager_id IS NOT NULL "
                 + "GROUP BY manager_id) "
                 + "ORDER BY employee_id";
-        ps = CONN.prepareStatement(sql);
+        ps = conn.prepareStatement(sql);
         ResultSet result = ps.executeQuery();
         while (result.next()) {
             Employee manager = new Employee();
@@ -170,18 +168,18 @@ public class EmployeeDAO implements IEmployeeDAO {
     @Override
     public boolean insertEmployee(Employee employee) throws SQLException {
         sql = "INSERT INTO employees VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-        ps = CONN.prepareStatement(sql);
+        ps = conn.prepareStatement(sql);
         ps.setInt(1, employee.getId());
         ps.setString(2, employee.getFirstName());
         ps.setString(3, employee.getLastName());
         ps.setString(4, employee.getEmail());
         ps.setString(5, employee.getPhoneNumber());
         ps.setDate(6, new Date(employee.getHireDate().getTime()));
-        ps.setString(7, jc.getIdByName(employee.getJobId()));
+        ps.setString(7, employee.getJobId());
         ps.setInt(8, employee.getSalary());
         ps.setFloat(9, employee.getCommisionPCT());
-        ps.setInt(10, ec.getManagerIdByName(employee.getManager()));
-        ps.setInt(11, dc.getIdByName(employee.getDepartment()));
+        ps.setInt(10, employee.getManagerId());
+        ps.setInt(11, employee.getDepartmentId());
         return 1 == ps.executeUpdate();
 
     }
@@ -202,7 +200,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                     + "manager_id = ? "
                     //                + "department_id = ? "
                     + "WHERE employee_id = ?";
-            ps = CONN.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
             ps.setInt(1, employee.getId());
             ps.setString(2, employee.getFirstName());
             ps.setString(3, employee.getLastName());
@@ -212,7 +210,7 @@ public class EmployeeDAO implements IEmployeeDAO {
 //        ps.setString(7, employee.getJobId());
             ps.setInt(7, employee.getSalary());
             ps.setFloat(8, employee.getCommisionPCT());
-            ps.setString(9, employee.getManager());
+            ps.setInt(9, employee.getManagerId());
 //        ps.setInt(10, employee.getDepartmentId());
             ps.setInt(10, employee.getId());
             return 1 == ps.executeUpdate();
@@ -226,12 +224,12 @@ public class EmployeeDAO implements IEmployeeDAO {
     @Override
     public boolean deleteEmployee(int id) throws SQLException {
         sql = "DELETE FROM job_history WHERE employee_id = ?";
-        ps = CONN.prepareStatement(sql);
+        ps = conn.prepareStatement(sql);
         ps.setInt(1, id);
         ps.executeUpdate();
 
         sql = "DELETE FROM employees WHERE employee_id = ?";
-        ps = CONN.prepareStatement(sql);
+        ps = conn.prepareStatement(sql);
         ps.setInt(1, id);
 
         return 1 == ps.executeUpdate();
@@ -240,8 +238,8 @@ public class EmployeeDAO implements IEmployeeDAO {
     @Override
     public int getManagerIdByName(String last_name) throws SQLException {
         int id = 0;
-        sql = "SELECT employee_id FROM employees WHERE last_name = ?";
-        ps = CONN.prepareStatement(sql);
+        sql = "SELECT employee_id FROM employees WHERE last_name = ? AND employee_id IN (SELECT manager_id FROM employees)";
+        ps = conn.prepareStatement(sql);
         ps.setString(1, last_name);
         ResultSet result = ps.executeQuery();
         while (result.next()) {

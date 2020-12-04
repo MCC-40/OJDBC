@@ -109,8 +109,9 @@ public class ManualTest {
 //        getDataTesting("", keyword);
 //        getAllManagers();
 //        getAllJobs();
-        System.out.println(new DepartmentController().getIdByName("Administration"));
-        System.out.println(new JobController().getIdByName("President"));
+System.out.println("IAINI");
+//        System.out.println(new DepartmentController().getIdByName("Administration"));
+//        System.out.println(new JobController().getIdByName("President"));
 
     }
 
