@@ -8,6 +8,8 @@ package pkg40.models;
 //import java.util.Date;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 
 /**
@@ -22,24 +24,24 @@ public class Employee {
     private String phoneNumber;
     private int salary;
     private Date hireDate;
-    private int commPct;
+    private Float commPct;
     private String jobId;
-    private int managerId;
-    private int departmentId;
+    private Integer managerId;
+    private Integer departmentId;
 
     
     public Employee(){
         
     }
     
-    public Employee(int id, String firstName, String lastName, String email, String phoneNumber, Date hireDate, String jobId, int salary, int commPct, int managerId, int departmentId){
+    public Employee(int id, String firstName, String lastName, String email, String phoneNumber, String jobId, int salary, float commPct, int managerId, int departmentId){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.salary = salary;
-        this.hireDate = hireDate;
+        this.hireDate = Date.valueOf(LocalDate.now(ZoneId.of("Asia/Jakarta")));
         this.commPct = commPct;
         this.jobId = jobId;
         this.managerId = managerId;
@@ -149,19 +151,7 @@ public class Employee {
         this.hireDate = hireDate;
     }
 
-    /**
-     * @return the commPct
-     */
-    public int getCommPct() {
-        return commPct;
-    }
-
-    /**
-     * @param commPct the commPct to set
-     */
-    public void setCommPct(int commPct) {
-        this.commPct = commPct;
-    }
+    
 
     /**
      * @return the jobId
@@ -178,30 +168,46 @@ public class Employee {
     }
 
     /**
+     * @return the commPct
+     */
+    public Float getCommPct() {
+        return commPct;
+    }
+
+    /**
+     * @param commPct the commPct to set
+     */
+    public void setCommPct(Float commPct) {
+        this.commPct = commPct;
+    }
+
+    /**
      * @return the managerId
      */
-    public int getManagerId() {
+    public Integer getManagerId() {
         return managerId;
     }
 
     /**
      * @param managerId the managerId to set
      */
-    public void setManagerId(int managerId) {
+    public void setManagerId(Integer managerId) {
         this.managerId = managerId;
     }
 
     /**
      * @return the departmentId
      */
-    public int getDepartmentId() {
+    public Integer getDepartmentId() {
         return departmentId;
     }
 
     /**
      * @param departmentId the departmentId to set
      */
-    public void setDepartmentId(int departmentId) {
+    public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
     }
+
+    
 }

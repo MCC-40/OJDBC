@@ -8,6 +8,7 @@ package pkg40.daos.idaos;
 import java.sql.SQLException;
 import java.util.List;
 import pkg40.models.Employee;
+import pkg40.models.tableOptionDropDown.EmployeeForeignTable;
 
 /**
  *
@@ -24,4 +25,8 @@ public interface IEmployeeDAO {
     public boolean updateEmployee(Employee employee) throws SQLException;
     
     public List<Employee> searchEmployees(String word) throws SQLException;
+    
+    public Employee getById(int id) throws SQLException;
+    
+    public <T> List<T> getForeignTable(EmployeeForeignTable table)  throws SQLException;
 }

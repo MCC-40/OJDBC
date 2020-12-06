@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import pkg40.daos.EmployeeDAO;
 import pkg40.daos.idaos.IEmployeeDAO;
 import pkg40.models.Employee;
+import pkg40.models.tableOptionDropDown.EmployeeForeignTable;
 import pkg40.tools.DBConnection;
 
 /**
@@ -49,4 +50,19 @@ public class EmployeeController {
             return iedao.searchEmployees(word);
         }
     }
+    
+    public String saveEmployee(Employee employee) throws SQLException{
+        if(iedao.getById(employee.getId()) == null)
+            return (iedao.insertEmployee(employee) ? "Inserted" : "Inserted Failed");
+        else
+            return (iedao.updateEmployee(employee) ? "Updated" : "Updated Failed");
+    }
+    
+    public Employee getById(int id) throws SQLException{
+        return iedao.getById(id);
+    }
+    
+    public <T> List<T> getForeignTable(EmployeeForeignTable table) throws SQLException{
+         return iedao.getForeignTable(table);
+     }
 }

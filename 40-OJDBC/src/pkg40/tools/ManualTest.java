@@ -57,25 +57,23 @@ public class ManualTest {
         String Format= format.format(Date.valueOf(LocalDate.now()));
         
         //print debugging
-        System.out.println(Date.valueOf(LocalDate.now()));
+//        System.out.println(Date.valueOf(LocalDate.now()));
 //        
-//      (int id, String firstName, String lastName, String email, String phoneNumber, Date hireDate, String jobId, String salary, int commPct, int managerId, int departmentId)
-        System.out.println(ec.insertEmployee(new Employee(210, "A", "B", "C", "D", Date.valueOf(LocalDate.now()), "E", 5000,  3,  100, 100)) ? "Berhasil" : "Gagal");
-        
-   
+        System.out.println(ec.insertEmployee(new Employee(211, "Crismon", "Manalu", "CRMAN", "321.456.7980", "IT_PROG", 6500, 0,  100, 100)) ? "Berhasil" : "Gagal");
     }
     
     public void insertTestingRegion() throws SQLException {
         System.out.println(rc.insertRegion(new Region(6, "South East Asia")) ? "Berhasil" : "Gagal");
     }
 
+    //update region name
     public void updateTesting() throws SQLException {
         System.out.println(rc.updateRegion(new Region(6, "South Asia")) ? "Berhasil" : "Gagal");
     }
     
     //update first name
     public void updateEmployeeTesting() throws SQLException{
-        System.out.println(ec.updateEmployee(new Employee(110, "Andre")) ? "Berhasil" : "Gagal");
+        System.out.println(ec.updateEmployee(new Employee(210, "Maniti", "Hasibuan", "MHAS", "123.456.7891", "AC_ACCOUNT", 5500, (float) 0.2, 100, 100)) ? "Berhasil" : "Gagal");
     }
 
     public void deleteTesting() throws SQLException {
@@ -83,7 +81,7 @@ public class ManualTest {
     }
     
     public void deleteTestingEmployee() throws SQLException{
-        System.out.println(ec.deleteEmployee(100) ? "Berhasil" : "Gagal");
+        System.out.println(ec.deleteEmployee(210) ? "Berhasil" : "Gagal");
     }
 
     public void searchTesting() throws SQLException {
@@ -113,10 +111,17 @@ public class ManualTest {
     }
 
     public void saveTesting() throws SQLException {
-        System.out.println(rc.saveRegion(new Region(6, "South East Asia")));
-        getAllTestingRegion();
+//        System.out.println(rc.saveRegion(new Region(6, "South East Asia")));
+//        getAllTestingRegion();
         System.out.println(rc.saveRegion(new Region(6, "South Asia")));
         getAllTestingRegion();
+    }
+    
+    public void saveTestingEmployee() throws SQLException{
+        System.out.println(ec.saveEmployee(new Employee(210, "Maniti", "Hasibuan", "MHAS", "123.456.7891", "AC_ACCOUNT", 5500, (float) 0.2, 100, 100)));
+        getAllTestingEmployee();
+        System.out.println(ec.saveEmployee(new Employee(210, "AndMan", "Hasibuan", "MHAS", "123.456.7891", "AC_ACCOUNT", 5500, (float) 0.2, 100, 100)));
+        getAllTestingEmployee();
     }
 
     /**
@@ -126,21 +131,25 @@ public class ManualTest {
     public static void main(String[] args) throws SQLException, ParseException {
         System.out.println(new DBConnection().getConnection());
         ManualTest mt = new ManualTest();
-//          mt.insertTesting();
-//          Date date = new Date(System.currentTimeMillis());
-//          System.out.println(date);
-//          mt.insertTestingEmployee();
-//          mt.getAllTestingEmployee();
-//          mt.getAllTestingRegion();   
-//          mt.updateTesting();
-//          mt.getAllTesting();
-//          mt.updateEmployeeTesting();
-//          mt.deleteTesting();
-//          mt.deleteTestingEmployee();
-//          mt.getAllTesting();
-          mt.searchTestingEmployees();
-//          mt.searchTesting();
-//          mt.saveTesting();
+
+        Date date = new Date(System.currentTimeMillis());
+        System.out.println(date);
+        
+//        region
+//        mt.getAllTestingRegion();   
+//        mt.updateTesting();
+//        mt.deleteTesting();
+//        mt.searchTesting();
+//        mt.insertTestingRegion();
+//        mt.saveTesting();
+
+//        employee
+//        mt.deleteTestingEmployee();
+//        mt.getAllTestingEmployee();
+//        mt.searchTestingEmployees();      //hanya memunculkan id dan firstname
+//        mt.updateEmployeeTesting();
+//        mt.insertTestingEmployee();
+//        mt.saveTestingEmployee();
     }
 }
 
