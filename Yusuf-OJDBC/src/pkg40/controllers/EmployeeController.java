@@ -10,6 +10,7 @@ import java.util.List;
 import pkg40.daos.EmployeeDAO;
 import pkg40.daos.idaos.IEmployeeDAO;
 import pkg40.models.Employee;
+import pkg40.models.tableoptions.EmployeeForeignTable;
 import pkg40.tools.DBConnection;
 
 /**
@@ -66,4 +67,9 @@ public class EmployeeController {
             return (iedao.updateEmployee(employee) ? "Updated" : "Failed");
         }
     }
+    
+    
+     public <T> List<T> getForeignTable(EmployeeForeignTable table) throws SQLException{
+         return iedao.getForeignTable(table);
+     }
 }

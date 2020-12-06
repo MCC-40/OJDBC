@@ -13,7 +13,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import pkg40.daos.idaos.IEmployeeDAO;
+import pkg40.models.Department;
 import pkg40.models.Employee;
+import pkg40.models.tableoptions.EmployeeForeignTable;
+import pkg40.models.Job;
 
 // SELECT '"'||LOWER(COLUMN_NAME)||'",' FROM ALL_COL_COMMENTS WHERE TABLE_NAME = 'EMPLOYEES'
 /**
@@ -288,5 +291,52 @@ public class EmployeeDAO implements IEmployeeDAO {
         }
         ps.close();
         return employees;
+    }
+
+    @Override
+    public <T> List<T> getForeignTable(EmployeeForeignTable table) throws SQLException {
+        List<T> tList = new ArrayList<>();
+        String sql;
+        ResultSet result;
+        switch (table) {
+            case JOB:
+                sql = "SELECT job_id, job_title FROM jobs";
+                ps = connection.prepareStatement(sql);
+                result = ps.executeQuery();
+                while (result.next()) {
+                    Job job = new Job();
+                    job.setId(result.getString(1));
+                    job.setTitle(result.getString(2));
+                    tList.add((T) job);
+                }
+                break;
+            case DEPARTMENT:
+                sql = "SELECT department_id, department_name FROM departments";
+                ps = connection.prepareStatement(sql);
+                result = ps.executeQuery();
+                while (result.next()) {
+                    Department dept = new Department();
+                    dept.setId(result.getInt(1));
+                    dept.setName(result.getString(2));
+                    tList.add((T) dept);
+                }
+                break;
+            case MANAGER:
+                sql = "SELECT employee_id, first_name, last_name FROM employees";
+                ps = connection.prepareStatement(sql);
+                result = ps.executeQuery();
+                while (result.next()) {
+                    Employee emp = new Employee();
+                    emp.setId(result.getInt(1));
+                    emp.setFirstName(result.getString(2));
+                    emp.setLastName(result.getString(3));
+                    tList.add((T) emp);
+                }
+                break;
+            default:
+                return null;
+        }
+
+        return tList;
     }
 }

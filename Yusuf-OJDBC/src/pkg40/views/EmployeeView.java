@@ -23,6 +23,7 @@ import pkg40.controllers.JobController;
 import pkg40.models.Department;
 import pkg40.models.Employee;
 import pkg40.models.Job;
+import pkg40.models.tableoptions.EmployeeForeignTable;
 
 /**
  *
@@ -49,14 +50,12 @@ public class EmployeeView extends javax.swing.JFrame {
         initComponents();
         try {
             ec = new EmployeeController();
-            jc = new JobController();
-            dc = new DepartmentController();
 
             employeeTable.setModel(loadData("", 1, 1));
+            
             // Manager Combo Box
-            List<Employee> employees = ec.searchEmployee("", 1, 2);
+            List<Employee> employees = ec.getForeignTable(EmployeeForeignTable.MANAGER);
             String employeeNames[] = new String[employees.size() + 1];
-
             employeeNames[0] = "No Manager";
             for (int i = 1; i < employeeNames.length; i++) {
                 employeeNames[i] = employees.get(i - 1).getFirstName() + " " + employees.get(i - 1).getLastName();
@@ -64,7 +63,7 @@ public class EmployeeView extends javax.swing.JFrame {
             managerComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(employeeNames));
 
             // Department Combo Box
-            List<Department> departments = dc.getAllDepartments(1);
+            List<Department> departments = ec.getForeignTable(EmployeeForeignTable.DEPARTMENT);
             String departmentNames[] = new String[departments.size() + 1];
 
             departmentNames[0] = "No Department";
@@ -74,7 +73,7 @@ public class EmployeeView extends javax.swing.JFrame {
             departmentComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(departmentNames));
 
             // Job Combo Box
-            List<Job> jobs = jc.getAllJobs(1);
+            List<Job> jobs = ec.getForeignTable(EmployeeForeignTable.JOB);
             String jobNames[] = new String[jobs.size()];
             for (int i = 0; i < jobNames.length; i++) {
                 jobNames[i] = jobs.get(i).getTitle();

@@ -8,6 +8,7 @@ package pkg40.daos.idaos;
 import java.sql.SQLException;
 import java.util.List;
 import pkg40.models.Employee;
+import pkg40.models.tableoptions.EmployeeForeignTable;
 
 /**
  *
@@ -29,4 +30,6 @@ public interface IEmployeeDAO {
     public Employee getById(int id) throws SQLException;
         
     public List<Employee> search(String input, int columnIndex, int sortByColumn) throws SQLException;
+    
+    public <T> List<T> getForeignTable(EmployeeForeignTable table)  throws SQLException;
 }
